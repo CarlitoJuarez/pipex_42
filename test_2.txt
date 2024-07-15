@@ -1,0 +1,5 @@
+total 3280
+-rw-r--r--   1 carlitojuarez  staff     1063 Jul 12 15:45 Makefile
+-rwxr-xr-x   1 carlitojuarez  staff    35400 Jul 12 15:52 a.out
+drwxr-xr-x   4 carlitojuarez  staff      128 Jul 15 12:28 bonus
+drwxr-xr-x   3 carlitojuarez  staff       96 Jul  9 14:33 build

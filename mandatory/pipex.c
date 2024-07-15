@@ -14,6 +14,8 @@ char **flags_continue(char *s, char **flags, int args, int i)
             while ( *(s + i + j) && !is_space(*(s + i + j)))
                 j++;
             flags[k] = malloc(sizeof(char) * j + 1);
+            if (!flags[k])
+                return (free_list(flags), NULL);
             flags[k][j] = 0;
             j = 0;
             while ( *(s + i + j) && !is_space(*(s + i + j)) )
@@ -48,6 +50,8 @@ char **flags(char *s)
     if (!args)
         return (NULL);
     flags = malloc(sizeof(char *) * args + 1);
+    if(!flags)
+        return (NULL);
     flags[args] = 0;
     i = 0;
     while ( *(s + i) && is_space(*(s + i)))
@@ -106,12 +110,14 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
         content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
         i++;
     }
-    printf("CONTENT_FINAL: %s\n", content);
     fd_2 = open(file_2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd_2 == -1)
         perror("open");
     if (content)
         write(fd_2, content, strlen(content));
+    close(fd_2);
+    free_list(cmnd_list);
+    free_list_list(arg_list);
 }
 
 void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
