@@ -9,7 +9,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	while ( s1 && *(s1 + i) )
 		i++;
-
 	j = 0;
 	while (*(s2 + j))
 		j++;
@@ -57,12 +56,12 @@ char *read_this(int fd, char *buf, char *limiter)
     char *res;
     int bytes;
 
-    res = malloc(sizeof(char) * BUF_SIZE + 1);
-    if (!res)
-        return(NULL);
     bytes = 1;
     while (bytes > 0)
     {
+        res = malloc(sizeof(char) * BUF_SIZE + 1);
+        if (!res)
+            return(NULL);
 		if (fd == 0)
         	write(1, ">> ", 3);
         bytes = read(fd, res, BUF_SIZE);

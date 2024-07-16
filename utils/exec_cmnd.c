@@ -1,7 +1,8 @@
 #include "../pipex.h"
 
-void handle_child(int *fd, int fd_2, char *path, char **cmnd_list)
+void handle_child(int *fd, int fd_2, char *path, char **cmnd_list, char *content)
 {
+    free(content);
     close(fd[1]);
     if (dup2(fd[0], STDIN_FILENO) == -1)
     {
@@ -58,7 +59,7 @@ char *exec_cmnd(char *path, char **cmnd_list, char *content)
         exit(EXIT_FAILURE);
     }
     else if (pid == 0)
-        handle_child(fd, tmp_fd, path, cmnd_list);
+        handle_child(fd, tmp_fd, path, cmnd_list, content);
     else
         content = handle_parent(fd, tmp_fd, content);
     return (content);
