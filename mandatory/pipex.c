@@ -68,6 +68,8 @@ char *return_path(char **arr, int index)
     while (*(arr[index] + i))
         i++;
     path = malloc(sizeof(char) * (i + 1));
+    if (!path)
+        return (NULL);
     i = 0;
     while (*(arr[index] + i))
     {
@@ -149,14 +151,14 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
 void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
 {
     int i;
-    int check;
+    // int check;
     char *content;
     char **cmnd_list;
     char ***arg_list;
 
     content = NULL;
     i = 0;
-    check = 0;
+    // check = 0;
     while (cmnds[i] != file_2)
         i++;
     if (ft_strcmp(file_1, "here_doc"))
@@ -176,17 +178,21 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
         if (!(arg_list[i]))
             free_list_list(arg_list);
         if (!find_path(envp, arg_list[i][0]))
-            check = 1;
+        {
+            free_list_list(arg_list);
+            free_list(cmnd_list);
+            return ;
+        }
         else
             cmnd_list[i] = find_path(envp, arg_list[i][0]);
         i++;
     }
-    if (check == 1)
-    {
-        free_list_list(arg_list);
-        free_list(cmnd_list);
-        return ;
-    }
+    // if (check == 1)
+    // {
+    //     free_list_list(arg_list);
+    //     free_list(cmnd_list);
+    //     return ;
+    // }
     continue_pipex(file_1, file_2, content, arg_list, cmnd_list);
 }
 
