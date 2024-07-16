@@ -13,7 +13,7 @@ char **flags_continue(char *s, char **flags, int args, int i)
             j = 0;
             while ( *(s + i + j) && !is_space(*(s + i + j)))
                 j++;
-            flags[k] = malloc(sizeof(char) * j + 1);
+            flags[k] = malloc(sizeof(char) * (j + 1));
             if (!flags[k])
                 return (free_list(flags), NULL);
             flags[k][j] = 0;
@@ -49,7 +49,7 @@ char **flags(char *s)
     }
     if (!args)
         return (NULL);
-    flags = malloc(sizeof(char *) * args + 1);
+    flags = malloc(sizeof(char *) * (args + 1));
     if(!flags)
         return (NULL);
     flags[args] = 0;
