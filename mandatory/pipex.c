@@ -147,6 +147,8 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     while (cmnds[i] != file_2)
     {
         arg_list[i] = flags(cmnds[i]);
+        if (!(arg_list[i]))
+            free_list_list(arg_list);
         if (!find_path(envp, arg_list[i][0]))
             check = 1;
         else
@@ -154,7 +156,11 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
         i++;
     }
     if (check == 1)
+    {
+        free_list_list(arg_list);
+        free_list(cmnd_list);
         return ;
+    }
     continue_pipex(file_1, file_2, content, arg_list, cmnd_list);
 }
 
