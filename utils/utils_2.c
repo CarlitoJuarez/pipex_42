@@ -79,7 +79,7 @@ void free_list_list(char ***arr)
     while (*(arr + i))
         i++;
     i--;
-    while (*(arr + i))
+    while (i)
     {
         j = 0;
         while (arr[i][j])
