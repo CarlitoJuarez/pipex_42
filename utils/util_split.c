@@ -42,6 +42,8 @@ void split(char **arr, char *s, int size)
         while (s[j + k] && !is_del(s[j + k]))
             k++;
         new = malloc(sizeof(char) * k + 1);
+        if (!new)
+            return (free_list(arr), NULL);
         new[k] = 0;
         buf = k + j;
         k--;
@@ -64,6 +66,8 @@ char **split_it(char *path)
 
     i = size_of(path);
     arr = malloc(sizeof(char *) * (i + 1));
+    if (!arr)
+        return (NULL);
     arr[i] = NULL;
     split(arr, path, i);
     return (arr);
