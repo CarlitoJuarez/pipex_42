@@ -45,7 +45,7 @@ void split(char **arr, char *s, int size)
         if (!new)
         {
             free_list(arr);
-            return (NULL);
+            return ;
         }
         new[k] = 0;
         buf = k + j;
