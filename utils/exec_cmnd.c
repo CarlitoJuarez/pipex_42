@@ -61,5 +61,6 @@ char *exec_cmnd(char *path, char **cmnd_list, char *content)
     else if (pid == 0)
         handle_child(fd, tmp_fd, path, cmnd_list, content);
     else
-        return (handle_parent(fd, tmp_fd, content));
+        content = handle_parent(fd, tmp_fd, content);
+    return (content);
 }
