@@ -31,6 +31,7 @@ char *handle_parent(int *fd, int fd_2, char *content)
     }
     close(fd[1]);
     wait(NULL);
+    free(content);
     content = file_read(".txt");
     unlink(".txt");
     return (content);
