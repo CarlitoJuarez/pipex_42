@@ -43,7 +43,10 @@ void split(char **arr, char *s, int size)
             k++;
         new = malloc(sizeof(char) * k + 1);
         if (!new)
-            return (free_list(arr), NULL);
+        {
+            free_list(arr);
+            return (NULL);
+        }
         new[k] = 0;
         buf = k + j;
         k--;
