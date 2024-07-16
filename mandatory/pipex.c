@@ -129,7 +129,14 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     }
     fd_2 = open(file_2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd_2 == -1)
+    {
         perror("open");
+        if (cmnd_list)
+            free_list(cmnd_list);
+        if (arg_list)
+            free_list_list(arg_list);
+        return ;
+    }
     if (content)
         write(fd_2, content, strlen(content));
     close(fd_2);
