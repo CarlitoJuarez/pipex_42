@@ -1,5 +1,35 @@
 #include "../pipex.h"
 
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*new;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while ( s1 && *(s1 + i) )
+		i++;
+
+	j = 0;
+	while (*(s2 + j))
+		j++;
+	new = malloc(sizeof(char) * (i + j + 1));
+	if (!new)
+		return (NULL);
+	new[i + j] = 0;
+	i = 0;
+	while ( s1 && *(s1 + i) )
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (*(s2 + j))
+		new[i++] = s2[j++];
+    free(s2);
+	return (new);
+}
+
 int check_end(char *res, char *limiter)
 {
     int i;
