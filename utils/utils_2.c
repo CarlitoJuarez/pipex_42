@@ -60,10 +60,13 @@ int file_check_w(char *file)
 void free_list(char **arr)
 {
     int i;
-
+    
     i = 0;
     while (*(arr + i))
-        free(*(arr + i++));
+        i++;
+    i--;
+    while (i)    
+        free(*(arr + i--));
     free(arr);
 }
 
@@ -74,12 +77,18 @@ void free_list_list(char ***arr)
 
     i = 0;
     while (*(arr + i))
+        i++;
+    i--;
+    while (*(arr + i))
     {
         j = 0;
         while (arr[i][j])
-            free(arr[i][j++]);
+            j++;
+        j--;
+        while (j)
+            free(arr[i][j--]);
         free(*(arr + i));
-        i++;
+        i--;
     }
     free(arr);
 }
