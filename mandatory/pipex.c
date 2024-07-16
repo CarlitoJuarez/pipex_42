@@ -122,6 +122,7 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
         {
             free_list(cmnd_list);
             free_list_list(arg_list);
+            break;
         }
         content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
         i++;
