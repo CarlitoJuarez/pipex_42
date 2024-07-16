@@ -12,6 +12,7 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 
 // basic functions 1
 
