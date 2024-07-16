@@ -88,8 +88,8 @@ char *get_next_line(int fd, char *limiter)
 {
     static char *buf;
 
-    if (buf)
-        free(buf);
+    // if (buf)
+        // free(buf);
     buf = NULL;
     buf = read_this(fd, buf, limiter);
     if (!buf)
