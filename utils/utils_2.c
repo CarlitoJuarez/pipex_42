@@ -27,9 +27,7 @@ int file_check_r(char *file)
 {
     int fd;
 
-    printf("FILECHECK READ: %s\n", file);
     fd = open(file, O_RDONLY);
-    printf("ERRNO: %d\n", errno);
     if (fd == -1)
     {
         if (errno == 2)
@@ -39,7 +37,6 @@ int file_check_r(char *file)
         return (0);
     }
     close(fd);
-    printf("TRUE:\n");
     return (1);
 }
 
@@ -47,9 +44,7 @@ int file_check_w(char *file)
 {
     int fd;
 
-    printf("FILECHECK: WRITE %s\n", file);
     fd = open(file, O_WRONLY);
-    printf("ERRNO: %d\n", errno);
     if (fd == -1)
     {
         if (errno == 2)
@@ -59,7 +54,6 @@ int file_check_w(char *file)
         return (0);
     }
     close(fd);
-    printf("TRUE:\n");
     return (1);
 }
 

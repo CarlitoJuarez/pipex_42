@@ -44,6 +44,8 @@ char *concat(char *path, char *cmnd)
         j++;
     size = i + j;
     new = malloc(sizeof(char) * (size + 2));
+    if (!new)
+        return (NULL);
     new[size + 1] = 0;
     i = 0;
     while (*(path + i))
