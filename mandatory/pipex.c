@@ -59,35 +59,37 @@ char **flags(char *s)
     return (flags_continue(s, flags, args, i));
 }
 
-char *return_path(char **arr, int index)
-{
-    int i;
-    char *path;
+// char *return_path(char **arr, int index)
+// {
+//     int i;
+//     char *path;
 
-    i = 0;
-    while (*(arr[index] + i))
-        i++;
-    path = malloc(sizeof(char) * (i + 1));
-    if (!path)
-        return (NULL);
-    i = 0;
-    while (*(arr[index] + i))
-    {
-        path[i] = *(arr[index] + i);
-        i++;
-    }
-    free_list(arr);
-    return (path);
-}
+//     i = 0;
+//     while (*(arr[index] + i))
+//         i++;
+//     path = malloc(sizeof(char) * (i + 1));
+//     if (!path)
+//         return (NULL);
+//     i = 0;
+//     while (*(arr[index] + i))
+//     {
+//         path[i] = *(arr[index] + i);
+//         i++;
+//     }
+//     free_list(arr);
+//     return ();
+// }
 
 char *find_path(char **envp, char *cmnd)
 {
     int i;
     char *path;
+    char *full_path;
     char **arr;
 
     i = 0;
     path = NULL;
+    full_path = NULL;
     while (i < 100)
     {
         if (strncmp(envp[i], "PATH=", 5) == 0)
@@ -103,11 +105,14 @@ char *find_path(char **envp, char *cmnd)
     i = 0;
     while (arr[i])
     {
-        if (!access(concat(arr[i], cmnd), X_OK))
-            return (return_path(arr, i));
-        i++;
+        full_path = concat(arr[i++], cmnd);
+        if (!access(full_path, X_OK))
+        {
+            free_list(arr);
+            return (full_path);
+        }
     }
-    return (printf("zsh: command not found: %s\n", cmnd), NULL);
+    return (printf("zsh: command not found: %s\n", cmnd), free_list(arr), NULL);
 }
 
 void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list, char **cmnd_list)
