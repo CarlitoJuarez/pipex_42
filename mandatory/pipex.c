@@ -102,6 +102,8 @@ char *find_path(char **envp, char *cmnd)
     if (!path)
         return (write(1, "Error: No path found.\n", 22), NULL);
     arr = split_it(path);
+    if (!arr)
+        return (NULL);
     i = 0;
     while (arr[i])
     {
@@ -111,6 +113,7 @@ char *find_path(char **envp, char *cmnd)
             free_list(arr);
             return (full_path);
         }
+        free(full_path);
         i++;
     }
     return (printf("zsh: command not found: %s\n", cmnd), free_list(arr), NULL);
@@ -161,14 +164,14 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
 void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
 {
     int i;
-    int check;
+    // int check;
     char *content;
     char **cmnd_list;
     char ***arg_list;
 
     content = NULL;
     i = 0;
-    check = 0;
+    // check = 0;
     while (cmnds[i] != file_2)
         i++;
     if (ft_strcmp(file_1, "here_doc"))
@@ -185,25 +188,32 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     while (cmnds[i] != file_2)
     {
         arg_list[i] = flags(cmnds[i]);
-        if (!(arg_list[i]))
-            free_list_list(arg_list);
-        if (!find_path(envp, arg_list[i][0]))
+        cmnd_list[i] = find_path(envp, arg_list[i][0]);
+        if (!(arg_list[i]) || !cmnd_list[i])
         {
-            check = 1;
-            // free_list_list(arg_list);
-            // free_list(cmnd_list);
-            // return ;
+            free_list_list(arg_list);
+            free_list(cmnd_list);
+            if (content)
+                free(content);
+            return ;
         }
-        else
-            cmnd_list[i] = find_path(envp, arg_list[i][0]);
+        // if (!find_path(envp, arg_list[i][0]))
+        // {
+        //     check = 1;
+        //     // free_list_list(arg_list);
+        //     // free_list(cmnd_list);
+        //     // return ;
+        // }
+        // else
+        //     cmnd_list[i] = find_path(envp, arg_list[i][0]);
         i++;
     }
-    if (check == 1)
-    {
-        free_list_list(arg_list);
-        free_list(cmnd_list);
-        return ;
-    }
+    // if (check == 1)
+    // {
+    //     free_list_list(arg_list);
+    //     free_list(cmnd_list);
+    //     return ;
+    // }
     continue_pipex(file_1, file_2, content, arg_list, cmnd_list);
 }
 
