@@ -105,12 +105,13 @@ char *find_path(char **envp, char *cmnd)
     i = 0;
     while (arr[i])
     {
-        full_path = concat(arr[i++], cmnd);
+        full_path = concat(arr[i], cmnd);
         if (!access(full_path, X_OK))
         {
             free_list(arr);
             return (full_path);
         }
+        i++;
     }
     return (printf("zsh: command not found: %s\n", cmnd), free_list(arr), NULL);
 }
@@ -156,14 +157,14 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
 void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
 {
     int i;
-    // int check;
+    int check;
     char *content;
     char **cmnd_list;
     char ***arg_list;
 
     content = NULL;
     i = 0;
-    // check = 0;
+    check = 0;
     while (cmnds[i] != file_2)
         i++;
     if (ft_strcmp(file_1, "here_doc"))
@@ -184,20 +185,21 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
             free_list_list(arg_list);
         if (!find_path(envp, arg_list[i][0]))
         {
-            free_list_list(arg_list);
-            free_list(cmnd_list);
-            return ;
+            check = 1;
+            // free_list_list(arg_list);
+            // free_list(cmnd_list);
+            // return ;
         }
         else
             cmnd_list[i] = find_path(envp, arg_list[i][0]);
         i++;
     }
-    // if (check == 1)
-    // {
-    //     free_list_list(arg_list);
-    //     free_list(cmnd_list);
-    //     return ;
-    // }
+    if (check == 1)
+    {
+        free_list_list(arg_list);
+        free_list(cmnd_list);
+        return ;
+    }
     continue_pipex(file_1, file_2, content, arg_list, cmnd_list);
 }
 

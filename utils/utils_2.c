@@ -7,9 +7,7 @@ char *file_read(char *file)
 {
     int fd;
 
-    printf("FILE_READ: %s\n", file);
     fd = open(file, O_RDONLY);
-    printf("ERRNO: %d\n", errno);
     if (fd == -1)
     {
         if (errno == 2)
