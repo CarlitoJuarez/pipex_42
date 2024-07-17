@@ -173,17 +173,36 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     free_list_list(arg_list);
 }
 
+char **fill_cmnd_list(char ***arg_list, char **cmnd_list, char **envp)
+{
+    int i;
+    char *path;
+
+    i = 0;
+    while (arg_list[i])
+    {
+        path = find_path(envp, arg_list[i][0]);
+        if (!path)
+            return (free_list(cmnd_list), NULL);
+        *(cmnd_list + i) = path;
+        free(path);
+        i++;
+    }
+    return (cmnd_list);
+}
+
 void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
 {
     int i;
-    // int check;
+    int check;
     char *content;
+    char *path;
     char **cmnd_list;
     char ***arg_list;
 
     content = NULL;
     i = 0;
-    // check = 0;
+    check = 0;
     while (cmnds[i] != file_2)
         i++;
     if (ft_strcmp(file_1, "here_doc"))
@@ -209,39 +228,24 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     {
         arg_list[i] = flags(cmnds[i]);
         if (!arg_list[i])
-        {
-            free_list_list(arg_list);
-            free_list(cmnd_list);
-            if (content)
-                free(content);
-            return;
-        }
-        cmnd_list[i] = find_path(envp, arg_list[i][0]);
-        if (!cmnd_list[i])
-        {
-            free_list_list(arg_list);
-            free_list(cmnd_list);
-            if (content)
-                free(content);
-            return ;
-        }
-        // if (!find_path(envp, arg_list[i][0]))
-        // {
-        //     check = 1;
-        //     // free_list_list(arg_list);
-        //     // free_list(cmnd_list);
-        //     // return ;
-        // }
-        // else
-        //     cmnd_list[i] = find_path(envp, arg_list[i][0]);
+            check = 1;
+        path = find_path(envp, arg_list[i][0]);
+        if (!path)
+            check = 1;
+        else
+            free(path);
         i++;
     }
-    // if (check == 1)
-    // {
-    //     free_list_list(arg_list);
-    //     free_list(cmnd_list);
-    //     return ;
-    // }
+    if (check == 1)
+    {
+        free_list_list(arg_list);
+        if (content)
+            free(content);
+        return ;
+    }
+    cmnd_list = fill_cmnd_list(arg_list, cmnd_list, envp);
+    if (!cmnd_list)
+        return (free(arg_list), free(content));
     continue_pipex(file_1, file_2, content, arg_list, cmnd_list);
 }
 
