@@ -29,12 +29,16 @@ char *handle_parent(int *fd, int fd_2, char *content)
     {
         perror("write:");
         free(content);
+        content = NULL;
         exit(EXIT_FAILURE);
     }
     close(fd[1]);
     wait(NULL);
     free(content);
+    content = NULL;
     content = file_read(".txt");
+    if (!content)
+        return (NULL);
     unlink(".txt");
     return (content);
 }
@@ -62,6 +66,11 @@ char *exec_cmnd(char *path, char **cmnd_list, char *content)
     else if (pid == 0)
         handle_child(fd, tmp_fd, path, cmnd_list, content);
     else
+    {
         content = handle_parent(fd, tmp_fd, content);
-    return (content);
+        if (!content)
+            return (NULL);
+        return (content);
+    }
+    return (NULL);
 }

@@ -70,7 +70,6 @@ char *read_this(int fd, char *buf, char *limiter)
         else if (bytes < 0)
         {
             perror("read");
-            // if (res)
             free(res);
             free(buf);
             return (NULL);

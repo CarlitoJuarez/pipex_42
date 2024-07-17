@@ -41,7 +41,7 @@ char **split(char **arr, char *s, int size)
             j++;
         while (s[j + k] && !is_del(s[j + k]))
             k++;
-        new = malloc(sizeof(char) * k + 1);
+        new = malloc(sizeof(char) * (k + 1));
         if (!new)
         {
             free_list(arr);
