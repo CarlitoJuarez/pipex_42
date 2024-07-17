@@ -38,6 +38,7 @@ char **flags(char *s)
     int i;
     int args;
     char **flags;
+    char **res;
 
     i = 0;
     args = 0;
@@ -56,7 +57,8 @@ char **flags(char *s)
     i = 0;
     while ( *(s + i) && is_space(*(s + i)))
         i++;
-    return (flags_continue(s, flags, args, i));
+    res = flags_continue(s, flags, args, i);
+    return (res);
 }
 
 // char *return_path(char **arr, int index)
