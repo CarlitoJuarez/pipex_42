@@ -65,16 +65,32 @@ char **flags(char *s)
     return (res);
 }
 
+char *find_path_continue(char **arr, char *cmnd)
+{
+    int i;
+    char *full_path;
+
+    i = 0;
+    while (arr[i])
+    {
+        full_path = concat(arr[i++], cmnd);
+        if (!full_path)
+            return (free_list(arr), NULL);
+        if (!access(full_path, X_OK))
+            return (free_list(arr), full_path);
+        free(full_path);
+    }
+    return (printf("zsh: command not found: %s\n", cmnd), free_list(arr), NULL);
+}
+
 char *find_path(char **envp, char *cmnd)
 {
     int i;
     char *path;
-    char *full_path;
     char **arr;
 
     i = 0;
     path = NULL;
-    full_path = NULL;
     if (!cmnd)
         return (NULL);
     while (i < 100)
@@ -91,27 +107,17 @@ char *find_path(char **envp, char *cmnd)
     arr = split_it(path);
     if (!arr)
         return (NULL);
-    i = 0;
-    while (arr[i])
-    {
-        full_path = concat(arr[i], cmnd);
-        if (!full_path)
-        {
-            free_list(arr);
-            arr = NULL;
-            return (NULL);
-        }
-        if (!access(full_path, X_OK))
-        {
-            free_list(arr);
-            arr = NULL;
-            return (full_path);
-        }
-        free(full_path);
-        full_path = NULL;
-        i++;
-    }
-    return (printf("zsh: command not found: %s\n", cmnd), free_list(arr), NULL);
+    return (find_path_continue(arr, cmnd));
+}
+
+void free_them_all(char *content, char **cmnd_list, char ***arg_list)
+{
+    if (content)
+        free(content);
+    if (cmnd_list)
+        free_list(cmnd_list);
+    if (arg_list)
+        free_list_list(arg_list);
 }
 
 void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list, char **cmnd_list)
@@ -131,24 +137,11 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     }
     fd_2 = open(file_2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd_2 == -1)
-    {
-        perror("open");
-        if (content)
-        {
-            free(content);
-            content = NULL;
-        }
-        free_list(cmnd_list);
-        free_list_list(arg_list);
-        return ;
-    }
+        return (perror("open"), free_them_all(content, cmnd_list, arg_list));
     if (content)
         write(fd_2, content, strlen(content));
     close(fd_2);
-    free(content);
-    content = NULL;
-    free_list(cmnd_list);
-    free_list_list(arg_list);
+    free_them_all(content, cmnd_list, arg_list);
 }
 
 char **fill_cmnd_list(char ***arg_list, char **envp, int size)
@@ -158,6 +151,7 @@ char **fill_cmnd_list(char ***arg_list, char **envp, int size)
     char **cmnd_list;
 
     i = 0;
+    path = NULL;
     cmnd_list = malloc(sizeof(char *) * (size + 1));
     cmnd_list[size] = 0;
     while (arg_list[i])
