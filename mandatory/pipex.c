@@ -177,15 +177,16 @@ char **fill_cmnd_list(char ***arg_list, char **cmnd_list, char **envp)
 {
     int i;
     char *path;
+    char **arr;
 
     i = 0;
+    arr = cmnd_list;
     while (arg_list[i])
     {
         path = find_path(envp, arg_list[i][0]);
         if (!path)
             return (free_list(cmnd_list), NULL);
-        *(cmnd_list + i) = path;
-        free(path);
+        *(arr + i) = path;
         i++;
     }
     return (cmnd_list);
