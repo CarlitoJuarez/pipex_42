@@ -4,7 +4,9 @@ char **flags_continue(char *s, char **flags, int args, int i)
 {
     int j;
     int k;
+    char **arr;
 
+    arr = flags;
     k = 0;
     while (args)
     {
@@ -13,14 +15,14 @@ char **flags_continue(char *s, char **flags, int args, int i)
             j = 0;
             while ( *(s + i + j) && !is_space(*(s + i + j)))
                 j++;
-            flags[k] = malloc(sizeof(char) * (j + 1));
-            if (!flags[k])
+            arr[k] = malloc(sizeof(char) * (j + 1));
+            if (!arr[k])
                 return (free_list(flags), NULL);
-            flags[k][j] = 0;
+            arr[k][j] = 0;
             j = 0;
             while ( *(s + i + j) && !is_space(*(s + i + j)) )
             {
-                flags[k][j] = *(s + i + j);
+                arr[k][j] = *(s + i + j);
                 j++;
             }
             k++;
@@ -142,6 +144,7 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     {
         if (!content)
             break;
+        printf("EXEC: %s\n", content);
         content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
         i++;
     }

@@ -70,7 +70,6 @@ char *exec_cmnd(char *path, char **cmnd_list, char *content)
         content = handle_parent(fd, tmp_fd, content);
         if (!content)
             return (NULL);
-        return (content);
     }
-    return (NULL);
+    return (content);
 }
