@@ -250,6 +250,7 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     {
         if (content)
             free(content);
+        free_list_list(arg_list);
         return ;
     }
     continue_pipex(file_1, file_2, content, arg_list, cmnd_list);
