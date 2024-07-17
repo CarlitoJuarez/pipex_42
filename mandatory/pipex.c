@@ -38,7 +38,6 @@ char **flags(char *s)
     int i;
     int args;
     char **flags;
-    char **res;
 
     i = 0;
     args = 0;
@@ -57,8 +56,7 @@ char **flags(char *s)
     i = 0;
     while ( *(s + i) && is_space(*(s + i)))
         i++;
-    res = flags_continue(s, flags, args, i);
-    return (res);
+    return (flags_continue(s, flags, args, i));
 }
 
 // char *return_path(char **arr, int index)
@@ -112,6 +110,11 @@ char *find_path(char **envp, char *cmnd)
     while (arr[i])
     {
         full_path = concat(arr[i], cmnd);
+        if (!full_path)
+        {
+            free_list(arr);
+            return ;
+        }
         if (!access(full_path, X_OK))
         {
             free_list(arr);
@@ -195,7 +198,8 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
         {
             free_list_list(arg_list);
             free_list(cmnd_list);
-            free(content);
+            if (content)
+                free(content);
             return;
         }
         cmnd_list[i] = find_path(envp, arg_list[i][0]);
