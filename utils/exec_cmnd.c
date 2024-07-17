@@ -70,6 +70,7 @@ char *exec_cmnd(char *path, char **cmnd_list, char *content)
         handle_child(fd, tmp_fd, path, cmnd_list, content);
     else
     {
+        free_list(cmnd_list);
         content = handle_parent(fd, tmp_fd, content);
         if (!content)
             return (NULL);
