@@ -148,12 +148,9 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     if (fd_2 == -1)
     {
         perror("open");
-        if (content)
-            free(content);
-        if (cmnd_list)
-            free_list(cmnd_list);
-        if (arg_list)
-            free_list_list(arg_list);
+        free(content);
+        free_list(cmnd_list);
+        free_list_list(arg_list);
         return ;
     }
     if (content)
@@ -161,10 +158,8 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     close(fd_2);
     free(content);
     content = NULL;
-    if (cmnd_list)
-        free_list(cmnd_list);
-    if (arg_list)
-        free_list_list(arg_list);
+    free_list(cmnd_list);
+    free_list_list(arg_list);
 }
 
 void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
@@ -194,13 +189,19 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     while (cmnds[i] != file_2)
     {
         arg_list[i] = flags(cmnds[i]);
-        cmnd_list[i] = find_path(envp, arg_list[i][0]);
-        if (!(arg_list[i]) || !cmnd_list[i])
+        if (arg_list[i])
         {
             free_list_list(arg_list);
             free_list(cmnd_list);
-            if (content)
-                free(content);
+            free(content);
+            return;
+        }
+        cmnd_list[i] = find_path(envp, arg_list[i][0]);
+        if (!cmnd_list[i])
+        {
+            free_list_list(arg_list);
+            free_list(cmnd_list);
+            free(content);
             return ;
         }
         // if (!find_path(envp, arg_list[i][0]))
