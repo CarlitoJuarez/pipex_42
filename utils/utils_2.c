@@ -62,19 +62,16 @@ void free_list(char **arr)
     
     i = 0;
     while (*(arr + i))
+        i++;
+    i--;
+    while (i)    
     {
         free(*(arr + i));
-        i++;
+        *(arr + i) = NULL;
+        i--;
     }
-    // i--;
-    // while (i)    
-    // {
-    //     free(*(arr + i));
-    //     // *(arr + i) = NULL;
-    //     i--;
-    // }
     free(arr);
-    // arr = NULL;
+    arr = NULL;
 }
 
 void free_list_list(char ***arr)
@@ -95,13 +92,13 @@ void free_list_list(char ***arr)
         while (j)
         {
             free(arr[i][j]);
-            // arr[i][j] = NULL;
+            arr[i][j] = NULL;
             j--;
         }
         free(*(arr + i));
-        // *(arr + i) = NULL;
+        *(arr + i) = NULL;
         i--;
     }
     free(arr);
-    // arr = NULL;
+    arr = NULL;
 }

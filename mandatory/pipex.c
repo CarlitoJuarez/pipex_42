@@ -132,11 +132,7 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     while (*(cmnd_list + i))
     {
         if (!content)
-        {
-            free_list(cmnd_list);
-            free_list_list(arg_list);
             break;
-        }
         content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
         i++;
     }
@@ -144,7 +140,11 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     if (fd_2 == -1)
     {
         perror("open");
-        free(content);
+        if (content)
+        {
+            free(content);
+            content = NULL;
+        }
         free_list(cmnd_list);
         free_list_list(arg_list);
         return ;
@@ -154,10 +154,8 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     close(fd_2);
     free(content);
     content = NULL;
-    if (cmnd_list)
-        free_list(cmnd_list);
-    if (arg_list)        
-        free_list_list(arg_list);
+    free_list(cmnd_list);
+    free_list_list(arg_list);
 }
 
 void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
