@@ -17,7 +17,7 @@ char **flags_continue(char *s, char **flags, int args, int i)
                 j++;
             arr[k] = malloc(sizeof(char) * (j + 1));
             if (!arr[k])
-                return (free_list(flags), NULL);
+                return (free_list(flags), flags = NULL, NULL);
             arr[k][j] = 0;
             j = 0;
             while ( *(s + i + j) && !is_space(*(s + i + j)) )
