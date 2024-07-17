@@ -17,9 +17,9 @@
 
 // basic functions 1
 
-char    *ft_strjoin(char *s1, char *s2);
+// char    *ft_strjoin(char *s1, char *s2);
 char    *concat(char *cmnd, char *path);
-char    *first(char *s);
+// char    *first(char *s);
 
 int     ft_strcmp(char *s1, char *s2);
 int     is_space(char c);

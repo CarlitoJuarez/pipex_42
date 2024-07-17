@@ -36,35 +36,35 @@ char *concat(char *path, char *cmnd)
     return (new);
 }
 
-char *first(char *s)
-{
-    int i;
-    int size;
-    char *first;
+// char *first(char *s)
+// {
+//     int i;
+//     int size;
+//     char *first;
 
-    i = 0;
-    size = 0;
-    first = NULL;
-    while (*(s + i))
-    {
-        if ( ( i == 0 && !is_space(*(s + i)) ) || ( is_space(*(s + i - 1) && !is_space(*(s + i))) ) )
-        {
-            while ( *(s + i + size) && !is_space(*(s + i + size)) )
-                size++;
-            first = malloc(sizeof(char) * size);
-            first[size] = 0;
-            size = 0;
-            while ( *(s + i + size) &&  !is_space(*(s + i + size)) )
-            {
-                first[size] = *(s + i + size);
-                size++;
-            }
-            break;
-        }
-        i++;
-    }
-    return (first);
-}
+//     i = 0;
+//     size = 0;
+//     first = NULL;
+//     while (*(s + i))
+//     {
+//         if ( ( i == 0 && !is_space(*(s + i)) ) || ( is_space(*(s + i - 1) && !is_space(*(s + i))) ) )
+//         {
+//             while ( *(s + i + size) && !is_space(*(s + i + size)) )
+//                 size++;
+//             first = malloc(sizeof(char) * size);
+//             first[size] = 0;
+//             size = 0;
+//             while ( *(s + i + size) &&  !is_space(*(s + i + size)) )
+//             {
+//                 first[size] = *(s + i + size);
+//                 size++;
+//             }
+//             break;
+//         }
+//         i++;
+//     }
+//     return (first);
+// }
 
 int ft_strcmp(char *s1, char *s2)
 {
