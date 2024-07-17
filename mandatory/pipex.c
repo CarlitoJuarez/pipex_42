@@ -61,7 +61,7 @@ char **flags(char *s)
         i++;
     res = flags_continue(s, flags, args, i);
     if (!res)
-        return (free_list(flags), NULL);
+        return (flags = NULL, NULL);
     return (res);
 }
 
