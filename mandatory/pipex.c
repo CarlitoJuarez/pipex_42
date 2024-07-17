@@ -4,9 +4,7 @@ char **flags_continue(char *s, char **flags, int args, int i)
 {
     int j;
     int k;
-    char **arr;
 
-    arr = flags;
     k = 0;
     while (args)
     {
@@ -15,14 +13,14 @@ char **flags_continue(char *s, char **flags, int args, int i)
             j = 0;
             while ( *(s + i + j) && !is_space(*(s + i + j)))
                 j++;
-            arr[k] = malloc(sizeof(char) * (j + 1));
-            if (!arr[k])
+            flags[k] = malloc(sizeof(char) * (j + 1));
+            if (!flags[k])
                 return (free_list(flags), flags = NULL, NULL);
-            arr[k][j] = 0;
+            flags[k][j] = 0;
             j = 0;
             while ( *(s + i + j) && !is_space(*(s + i + j)) )
             {
-                arr[k][j] = *(s + i + j);
+                flags[k][j] = *(s + i + j);
                 j++;
             }
             k++;
@@ -40,7 +38,6 @@ char **flags(char *s)
     int i;
     int args;
     char **flags;
-    char **res;
 
     i = 0;
     args = 0;
@@ -54,15 +51,12 @@ char **flags(char *s)
         return (NULL);
     flags = malloc(sizeof(char *) * (args + 1));
     if(!flags)
-        return (res = NULL, NULL);
+        return (NULL);
     flags[args] = 0;
     i = 0;
     while ( *(s + i) && is_space(*(s + i)))
         i++;
-    res = flags_continue(s, flags, args, i);
-    if (!res)
-        return (flags = NULL, NULL);
-    return (res);
+    return (flags_continue(s, flags, args, i));
 }
 
 char *find_path_continue(char **arr, char *cmnd)
