@@ -90,6 +90,8 @@ char *find_path(char **envp, char *cmnd)
     i = 0;
     path = NULL;
     full_path = NULL;
+    if (!cmnd)
+        return (NULL);
     while (i < 100)
     {
         if (strncmp(envp[i], "PATH=", 5) == 0)
