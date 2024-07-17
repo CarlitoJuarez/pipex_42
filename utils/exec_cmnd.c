@@ -7,20 +7,17 @@ void handle_child(int *fd, int fd_2, char *path, char **cmnd_list, char *content
     if (dup2(fd[0], STDIN_FILENO) == -1)
     {
         perror("dup2 stdin");
-        free_list(cmnd_list);
         exit(EXIT_FAILURE);
     }
     close(fd[0]);
     if (dup2(fd_2, STDOUT_FILENO) == -1)
     {
         perror("dup2");
-        free_list(cmnd_list);
         exit(EXIT_FAILURE);
     }
     close(fd_2);
     execve(path, cmnd_list, NULL);
     perror("execve");
-    free_list(cmnd_list);
     exit(EXIT_FAILURE);
 }
 
@@ -65,9 +62,6 @@ char *exec_cmnd(char *path, char **cmnd_list, char *content)
     else if (pid == 0)
         handle_child(fd, tmp_fd, path, cmnd_list, content);
     else
-    {
-        free_list(cmnd_list);
         content = handle_parent(fd, tmp_fd, content);
-    }
     return (content);
 }
