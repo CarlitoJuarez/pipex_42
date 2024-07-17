@@ -113,7 +113,7 @@ char *find_path(char **envp, char *cmnd)
         if (!full_path)
         {
             free_list(arr);
-            return ;
+            return (NULL);
         }
         if (!access(full_path, X_OK))
         {
