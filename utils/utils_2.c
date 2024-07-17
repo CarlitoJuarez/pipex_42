@@ -7,6 +7,7 @@ char *file_read(char *file)
 {
     int fd;
 
+    printf("FILE_READ: %s\n", file);
     fd = open(file, O_RDONLY);
     if (fd == -1)
     {
@@ -76,6 +77,7 @@ void free_list(char **arr)
 void free_list_list(char ***arr)
 {
     int i;
+    int j;
 
     i = 0;
     while (*(arr + i))
@@ -83,7 +85,17 @@ void free_list_list(char ***arr)
     i--;
     while (i)
     {
-        free_list(*(arr + i));
+        j = 0;
+        while (arr[i][j])
+            j++;
+        j--;
+        while (j)
+        {
+            free(arr[i][j]);
+            arr[i][j] = NULL;
+            j--;
+        }
+        free(*(arr + i));
         *(arr + i) = NULL;
         i--;
     }

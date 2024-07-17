@@ -38,7 +38,6 @@ char **flags(char *s)
     int i;
     int args;
     char **flags;
-    char **res;
 
     i = 0;
     args = 0;
@@ -57,10 +56,7 @@ char **flags(char *s)
     i = 0;
     while ( *(s + i) && is_space(*(s + i)))
         i++;
-    res = flags_continue(s, flags, args, i);
-    if (!res)
-        free_list(flags);
-    return (res);
+    return (flags_continue(s, flags, args, i));
 }
 
 // char *return_path(char **arr, int index)
@@ -158,8 +154,10 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     close(fd_2);
     free(content);
     content = NULL;
-    free_list(cmnd_list);
-    free_list_list(arg_list);
+    if (cmnd_list)
+        free_list(cmnd_list);
+    if (arg_list)        
+        free_list_list(arg_list);
 }
 
 void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
@@ -178,18 +176,22 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     if (ft_strcmp(file_1, "here_doc"))
         content = get_next_line(0, cmnds++[0]);
     cmnd_list = malloc(sizeof(char *) * (i + 1));
-    if (!cmnd_list)
+    if (!cmnd_list && content)
         return (free(content));
+    else if (!cmnd_list && !content)
+        return ;
     arg_list = malloc(sizeof(char **) * (i + 1));
-    if (!arg_list)
+    if (!arg_list && content)
         return (free(cmnd_list), free(content));
+    else if (!arg_list && !content)
+        return (free(cmnd_list));
     cmnd_list[i] = NULL;
     arg_list[i] = NULL;
     i = 0;
     while (cmnds[i] != file_2)
     {
         arg_list[i] = flags(cmnds[i]);
-        if (arg_list[i])
+        if (!arg_list[i])
         {
             free_list_list(arg_list);
             free_list(cmnd_list);
@@ -201,7 +203,8 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
         {
             free_list_list(arg_list);
             free_list(cmnd_list);
-            free(content);
+            if (content)
+                free(content);
             return ;
         }
         // if (!find_path(envp, arg_list[i][0]))
