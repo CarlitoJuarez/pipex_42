@@ -81,7 +81,6 @@ void free_list(char **arr)
 void free_list_list(char ***arr)
 {
     int i;
-    int j;
 
     i = 0;
     while (*(arr + i))
@@ -89,19 +88,7 @@ void free_list_list(char ***arr)
     i--;
     while (i)
     {
-        j = 0;
-        while (arr[i][j])
-            j++;
-        j--;
-        while (j)
-        {
-            free(arr[i][j]);
-            arr[i][j] = NULL;
-            j--;
-        }
-        free(*(arr + i));
-        *(arr + i) = NULL;
-        i--;
+        free_list(*(arr + i--));
     }
     free(*arr);
     *arr = NULL;
