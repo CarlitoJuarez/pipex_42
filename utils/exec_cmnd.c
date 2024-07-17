@@ -56,6 +56,7 @@ char *exec_cmnd(char *path, char **cmnd_list, char *content)
     if (pipe(fd) == -1)
     {
         perror("pipe");
+        free(cmnd_list);
         exit(EXIT_FAILURE);
     }
     pid = fork();
