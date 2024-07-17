@@ -1,5 +1,0 @@
-total 3280
--rw-r--r--   1 carlitojuarez  staff     1063 Jul 15 22:57 Makefile
--rwxr-xr-x   1 carlitojuarez  staff    35400 Jul 15 22:57 a.out
-drwxr-xr-x   4 carlitojuarez  staff      128 Jul 15 22:57 bonus
-drwxr-xr-x   3 carlitojuarez  staff       96 Jul 15 22:57 build
