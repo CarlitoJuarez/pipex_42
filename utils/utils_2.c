@@ -62,14 +62,17 @@ void free_list(char **arr)
     
     i = 0;
     while (*(arr + i))
-        i++;
-    i--;
-    while (i)    
     {
         free(*(arr + i));
-        // *(arr + i) = NULL;
-        i--;
+        i++;
     }
+    // i--;
+    // while (i)    
+    // {
+    //     free(*(arr + i));
+    //     // *(arr + i) = NULL;
+    //     i--;
+    // }
     free(arr);
     // arr = NULL;
 }
