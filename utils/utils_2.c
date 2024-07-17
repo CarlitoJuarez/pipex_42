@@ -72,6 +72,8 @@ void free_list(char **arr)
         *(arr + i) = NULL;
         i--;
     }
+    free(*arr);
+    *arr = NULL;
     free(arr);
     arr = NULL;
 }
@@ -101,6 +103,8 @@ void free_list_list(char ***arr)
         *(arr + i) = NULL;
         i--;
     }
+    free(*arr);
+    *arr = NULL;
     free(arr);
     arr = NULL;
 }
