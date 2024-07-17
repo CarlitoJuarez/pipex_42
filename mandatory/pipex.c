@@ -54,7 +54,7 @@ char **flags(char *s)
         return (NULL);
     flags = malloc(sizeof(char *) * (args + 1));
     if(!flags)
-        return (NULL);
+        return (res = NULL, NULL);
     flags[args] = 0;
     i = 0;
     while ( *(s + i) && is_space(*(s + i)))
@@ -119,14 +119,17 @@ char *find_path(char **envp, char *cmnd)
         if (!full_path)
         {
             free_list(arr);
+            arr = NULL;
             return (NULL);
         }
         if (!access(full_path, X_OK))
         {
             free_list(arr);
+            arr = NULL;
             return (full_path);
         }
         free(full_path);
+        full_path = NULL;
         i++;
     }
     return (printf("zsh: command not found: %s\n", cmnd), free_list(arr), NULL);
