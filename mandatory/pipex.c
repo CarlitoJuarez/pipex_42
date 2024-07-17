@@ -180,10 +180,10 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
         content = get_next_line(0, cmnds++[0]);
     cmnd_list = malloc(sizeof(char *) * (i + 1));
     if (!cmnd_list)
-        return ;
+        return (free(content));
     arg_list = malloc(sizeof(char **) * (i + 1));
     if (!arg_list)
-        return (free(cmnd_list));
+        return (free(cmnd_list), free(content));
     cmnd_list[i] = NULL;
     arg_list[i] = NULL;
     i = 0;
