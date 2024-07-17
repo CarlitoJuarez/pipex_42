@@ -107,7 +107,6 @@ char *find_path(char **envp, char *cmnd)
         }
         i++;
     }
-    printf("PATH: %s\n", path);
     if (!path)
         return (write(1, "Error: No path found.\n", 22), NULL);
     arr = split_it(path);
@@ -148,7 +147,6 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     {
         if (!content)
             break;
-        printf("EXEC: %s\n", content);
         content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
         i++;
     }

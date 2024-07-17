@@ -18,6 +18,7 @@ void handle_child(int *fd, int fd_2, char *path, char **cmnd_list, char *content
     close(fd_2);
     execve(path, cmnd_list, NULL);
     perror("execve");
+    free(cmnd_list);
     exit(EXIT_FAILURE);
 }
 
