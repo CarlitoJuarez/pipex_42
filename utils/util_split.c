@@ -56,6 +56,7 @@ char **split(char **arr, char *s, int size)
             k--;
         }
         arr[i] = new;
+        printf("ARR[i]: %s\n", arr[i]);
         j = buf;
         size--;
         i++;

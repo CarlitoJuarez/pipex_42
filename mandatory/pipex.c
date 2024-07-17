@@ -107,6 +107,7 @@ char *find_path(char **envp, char *cmnd)
         }
         i++;
     }
+    printf("PATH: %s\n", path);
     if (!path)
         return (write(1, "Error: No path found.\n", 22), NULL);
     arr = split_it(path);
@@ -185,7 +186,7 @@ char **fill_cmnd_list(char ***arg_list, char **cmnd_list, char **envp)
     {
         path = find_path(envp, arg_list[i][0]);
         if (!path)
-            return (free_list(cmnd_list), NULL);
+            return (free_list(cmnd_list), free_list_list(arg_list), NULL);
         *(arr + i) = path;
         i++;
     }
@@ -249,7 +250,7 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     {
         if (content)
             free(content);
-        return (free(arg_list));
+        return ;
     }
     continue_pipex(file_1, file_2, content, arg_list, cmnd_list);
 }
