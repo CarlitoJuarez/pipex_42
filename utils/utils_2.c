@@ -87,9 +87,7 @@ void free_list_list(char ***arr)
         i++;
     i--;
     while (i)
-    {
         free_list(*(arr + i--));
-    }
     free_list(*arr);
     *arr = NULL;
     free(arr);
