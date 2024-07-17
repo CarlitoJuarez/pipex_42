@@ -24,7 +24,7 @@ int size_of(char *str)
     return (count);
 }
 
-void split(char **arr, char *s, int size)
+char **split(char **arr, char *s, int size)
 {
     int i;
     int j;
@@ -45,7 +45,7 @@ void split(char **arr, char *s, int size)
         if (!new)
         {
             free_list(arr);
-            return ;
+            return (NULL);
         }
         new[k] = 0;
         buf = k + j;
@@ -60,6 +60,7 @@ void split(char **arr, char *s, int size)
         size--;
         i++;
     }
+    return (arr);
 }
 
 char **split_it(char *path)
@@ -72,6 +73,6 @@ char **split_it(char *path)
     if (!arr)
         return (NULL);
     arr[i] = NULL;
-    split(arr, path, i);
+    arr = split(arr, path, i);
     return (arr);
 }
