@@ -18,7 +18,7 @@ void handle_child(int *fd, int fd_2, char *path, char **cmnd_list, char *content
     close(fd_2);
     execve(path, cmnd_list, NULL);
     perror("execve");
-    free(cmnd_list);
+    free_list(cmnd_list);
     exit(EXIT_FAILURE);
 }
 
@@ -52,7 +52,7 @@ char *exec_cmnd(char *path, char **cmnd_list, char *content)
 
     tmp_fd = open(".txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
     if (tmp_fd == -1)
-        return (free_list(cmnd_list), ("open tmpfile:"), NULL);
+        return (free_list(cmnd_list), perror("open tmpfile:"), NULL);
     if (pipe(fd) == -1)
     {
         perror("pipe");

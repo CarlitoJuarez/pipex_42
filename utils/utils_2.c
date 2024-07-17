@@ -85,6 +85,7 @@ void free_list_list(char ***arr)
     i = 0;
     while (*(arr + i))
         i++;
+    printf("I: %d\n", i);
     i--;
     while (i)
     {
