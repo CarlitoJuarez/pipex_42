@@ -52,17 +52,18 @@ char *exec_cmnd(char *path, char **cmnd_list, char *content)
 
     tmp_fd = open(".txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
     if (tmp_fd == -1)
-        return (free(cmnd_list), ("open tmpfile:"), NULL);
+        return (free_list(cmnd_list), ("open tmpfile:"), NULL);
     if (pipe(fd) == -1)
     {
         perror("pipe");
-        free(cmnd_list);
+        free_list(cmnd_list);
         exit(EXIT_FAILURE);
     }
     pid = fork();
     if (pid < 0)
     {
         perror("fork");
+        free_list(cmnd_list);
         exit(EXIT_FAILURE);
     }
     else if (pid == 0)
