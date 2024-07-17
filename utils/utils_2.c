@@ -6,8 +6,8 @@
 char *file_read(char *file)
 {
     int fd;
+    char *content;
 
-    printf("FILE_READ: %s\n", file);
     fd = open(file, O_RDONLY);
     if (fd == -1)
     {
@@ -17,9 +17,11 @@ char *file_read(char *file)
             printf("zsh: permission denied: %s\n", file);
         return (NULL);
     }
-    file = get_next_line(fd, 0);
+    content = get_next_line(fd, 0);
+    if (!content)
+        return (NULL);
     close(fd);
-    return (file);
+    return (content);
 }
 
 int file_check_r(char *file)

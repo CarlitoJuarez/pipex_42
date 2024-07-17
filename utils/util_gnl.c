@@ -61,7 +61,7 @@ char *read_this(int fd, char *buf, char *limiter)
     {
         res = malloc(sizeof(char) * BUF_SIZE + 1);
         if (!res)
-            return(NULL);
+            return(free(buf), NULL);
 		if (fd == 0)
         	write(1, ">> ", 3);
         bytes = read(fd, res, BUF_SIZE);
@@ -70,8 +70,9 @@ char *read_this(int fd, char *buf, char *limiter)
         else if (bytes < 0)
         {
             perror("read");
-            if (res)
-                free(res);
+            // if (res)
+            free(res);
+            free(buf);
             return (NULL);
         }
         res[bytes] = 0;
@@ -91,6 +92,8 @@ char *get_next_line(int fd, char *limiter)
     // if (buf)
     //     free(buf);
     buf = NULL;
+    if (fd < 0 || BUF_SIZE <= 0 || BUF_SIZE > INT_MAX)
+        return (buf = NULL, NULL);
     buf = read_this(fd, buf, limiter);
     if (!buf)
         return (NULL);

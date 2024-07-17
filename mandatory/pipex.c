@@ -177,7 +177,11 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     while (cmnds[i] != file_2)
         i++;
     if (ft_strcmp(file_1, "here_doc"))
+    {
         content = get_next_line(0, cmnds++[0]);
+        if (!content)
+            return ;
+    }
     cmnd_list = malloc(sizeof(char *) * (i + 1));
     if (!cmnd_list && content)
         return (free(content));
