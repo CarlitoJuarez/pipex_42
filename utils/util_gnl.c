@@ -68,12 +68,7 @@ char *read_this(int fd, char *buf, char *limiter)
         if (!bytes)
             break;
         else if (bytes < 0)
-        {
-            perror("read");
-            if (res)
-                free(res);
-            return (NULL);
-        }
+            return (perror("read"), free(res), NULL);
         res[bytes] = 0;
         if (fd == 0 && check_end(res, limiter))
             break;
@@ -88,8 +83,6 @@ char *get_next_line(int fd, char *limiter)
 {
     static char *buf;
 
-    // if (buf)
-    //     free(buf);
     buf = NULL;
     buf = read_this(fd, buf, limiter);
     if (!buf)

@@ -24,12 +24,11 @@ int size_of(char *str)
     return (count);
 }
 
-char **split(char **arr, char *s, int size)
+char **split_path_continue(char **arr, char *s, int size)
 {
     int i;
     int j;
     int k;
-    int buf;
     char *new;
 
     i = 0;
@@ -41,30 +40,17 @@ char **split(char **arr, char *s, int size)
             j++;
         while (s[j + k] && !is_del(s[j + k]))
             k++;
-        new = malloc(sizeof(char) * (k + 1));
+        new = fill_str(k, s, j);
         if (!new)
-        {
-            free_list(arr);
-            return (NULL);
-        }
-        new[k] = 0;
-        buf = k + j;
-        k--;
-        while (k >= 0)
-        {
-            new[k] = *(s + j + k);
-            k--;
-        }
-        arr[i] = new;
-        printf("ARR[i]: %s\n", arr[i]);
-        j = buf;
+            return (free_list(arr), NULL);
+        arr[i++] = new;
+        j += k;
         size--;
-        i++;
     }
     return (arr);
 }
 
-char **split_it(char *path)
+char **split_path(char *path)
 {
     char **arr;
     int i;
@@ -74,6 +60,6 @@ char **split_it(char *path)
     if (!arr)
         return (NULL);
     arr[i] = NULL;
-    arr = split(arr, path, i);
+    arr = split_path_continue(arr, path, i);
     return (arr);
 }

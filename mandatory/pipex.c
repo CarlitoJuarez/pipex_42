@@ -1,5 +1,7 @@
 #include "../pipex.h"
 
+
+
 char **flags_continue(char *s, char **flags, int args, int i)
 {
     int j;
@@ -13,16 +15,9 @@ char **flags_continue(char *s, char **flags, int args, int i)
             j = 0;
             while ( *(s + i + j) && !is_space(*(s + i + j)))
                 j++;
-            flags[k] = malloc(sizeof(char) * (j + 1));
+            flags[k] = fill_str(j, s, i);
             if (!flags[k])
                 return (free_list(flags), flags = NULL, NULL);
-            flags[k][j] = 0;
-            j = 0;
-            while ( *(s + i + j) && !is_space(*(s + i + j)) )
-            {
-                flags[k][j] = *(s + i + j);
-                j++;
-            }
             k++;
             args--;
             i += j;
@@ -67,7 +62,7 @@ char *find_path_continue(char **arr, char *cmnd)
     i = 0;
     while (arr[i])
     {
-        full_path = concat(arr[i++], cmnd);
+        full_path = concat_full_path(arr[i++], cmnd);
         if (!full_path)
             return (free_list(arr), NULL);
         if (!access(full_path, X_OK))
@@ -98,7 +93,7 @@ char *find_path(char **envp, char *cmnd)
     }
     if (!path)
         return (write(1, "Error: No path found.\n", 22), NULL);
-    arr = split_it(path);
+    arr = split_path(path);
     if (!arr)
         return (NULL);
     return (find_path_continue(arr, cmnd));

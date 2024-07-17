@@ -18,8 +18,10 @@
 // basic functions 1
 
 // char    *ft_strjoin(char *s1, char *s2);
-char    *concat(char *cmnd, char *path);
+char    *concat_full_path(char *cmnd, char *path);
 // char    *first(char *s);
+
+char    *fill_str(int size, char *s, int index);
 
 int     ft_strcmp(char *s1, char *s2);
 int     is_space(char c);
@@ -44,6 +46,6 @@ char    *exec_cmnd(char *path, char **cmnd_list, char *content);
 
 // split function
 
-char    **split_it(char *path);
+char    **split_path(char *path);
 
 #endif
