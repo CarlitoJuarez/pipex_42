@@ -245,7 +245,11 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     }
     cmnd_list = fill_cmnd_list(arg_list, cmnd_list, envp);
     if (!cmnd_list)
-        return (free(arg_list), free(content));
+    {
+        if (content)
+            free(content);
+        return (free(arg_list));
+    }
     continue_pipex(file_1, file_2, content, arg_list, cmnd_list);
 }
 
