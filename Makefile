@@ -27,22 +27,29 @@ SRCS_UTILS		= utils_1.c utils_2.c util_gnl.c util_split.c exec_cmnd.c util_flags
 PATH_UTILS		= $(addprefix $(DIR_UTILS), $(SRCS_UTILS))
 OBJ_UTILS		= $(PATH_UTILS:.c=.o)
 
+# PRINTF
+DIR_UTILS_FT_PRINTF		= utils/ft_printf/
+SRCS_UTILS_FT_PRINTF	= ft_printf.c ft_putaddress.c ft_putchar.c ft_puthexa.c ft_putnbr.c ft_putstr.c ft_putunsigned.c ft_strchr.c
+PATH_UTILS_FT_PRINTF	= $(addprefix $(DIR_UTILS_FT_PRINTF), $(SRCS_UTILS_FT_PRINTF))
+OBJ_UTILS_FT_PRINTF		= $(PATH_UTILS_FT_PRINTF:.c=.o)
+
 # COMMANDS
 %.o: %.c 	$(HEADER) Makefile
 							@${CC} ${FLAGS} -c $< -o $@
 
-$(NAME):	$(OBJ_UTILS) $(OBJ_MANDATORY)
-							@$(CC) $(OBJ_UTILS) $(OBJ_MANDATORY) -o $(NAME)
+$(NAME):	$(OBJ_UTILS) $(OBJ_UTILS_FT_PRINTF) $(OBJ_MANDATORY)
+							@$(CC) $(OBJ_UTILS) $(OBJ_UTILS_FT_PRINTF) $(OBJ_MANDATORY) -o $(NAME)
 
 
 all:		$(NAME)
 
-bonus:		$(OBJ_UTILS) $(OBJ_BONUS)
-							@$(CC) $(OBJ_UTILS) $(OBJ_BONUS) -o $(NAME)
+bonus:		$(OBJ_UTILS) $(OBJ_UTILS_FT_PRINTF) $(OBJ_BONUS)
+							@$(CC) $(OBJ_UTILS) $(OBJ_UTILS_FT_PRINTF) $(OBJ_BONUS) -o $(NAME)
 
 clean:						
 							@$(RM)	$(OBJ_MANDATORY)
 							@$(RM)	$(OBJ_UTILS)
+							@$(RM)	$(OBJ_UTILS_FT_PRINTF)
 							@$(RM)	$(OBJ_BONUS)
 
 fclean:		clean

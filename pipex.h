@@ -10,7 +10,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
-
+#include <stddef.h>
+#include <stdarg.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <sys/wait.h>
@@ -52,5 +53,19 @@ char    **split_path(char *path);
 // exec cmnd
 
 char    *exec_cmnd(char *path, char **cmnd_list, char *content);
+
+
+// ft_printf
+
+int		ft_printf(const char *str, ...);
+int		ft_putchar(int c);
+int		ft_putstr(char *s);
+int		ft_putaddress(void *p);
+int		ft_puthexa(unsigned int n, const char c);
+int		ft_putnbr(int n);
+int		ft_putunsigned(unsigned long n);
+
+char	*ft_strchr(const char *s, int c);
+
 
 #endif

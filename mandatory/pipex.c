@@ -26,24 +26,24 @@ char ***fill_arg_list(char **cmnds, int size, char **envp)
     int check;
     char ***arg_list;
     char *path;
+    int i;
 
     check = 0;
+    i = -1;
     arg_list = malloc(sizeof(char **) * (size + 1));
     if (!arg_list)
         return (NULL);
     arg_list[size] = 0;
-    size--;
-    while (size >= 0)
+    while (++i < size)
     {
-        arg_list[size] = flags(cmnds[size]);
-        if (!arg_list[size])
+        arg_list[i] = flags(cmnds[i]);
+        if (!arg_list[i])
             check = 1;
-        path = find_path(envp, arg_list[size][0]);
+        path = find_path(envp, arg_list[i][0]);
         if (!path)
             check = 1;
         else
             free(path);
-        size--;
     }
     if (check == 1)
         return (free_list_list(arg_list), NULL);
@@ -86,12 +86,10 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     while (cmnds[i] != file_2)
         i++;
     if (ft_strcmp(file_1, "here_doc"))
-    {
         content = get_next_line(0, cmnds++[0]);
-        if (!content)
-            return ;
-    }
     arg_list = fill_arg_list(cmnds, i, envp);
+    if (!arg_list)
+        return ;
     cmnd_list = fill_cmnd_list(arg_list, envp, i);
     if (!cmnd_list)
     {

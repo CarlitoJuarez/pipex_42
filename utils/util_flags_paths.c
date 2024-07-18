@@ -67,7 +67,7 @@ char *find_path_continue(char **arr, char *cmnd)
             return (free_list(arr), full_path);
         free(full_path);
     }
-    return (printf("zsh: command not found: %s\n", cmnd), free_list(arr), NULL);
+    return (ft_printf("zsh: command not found: %s\n", cmnd), free_list(arr), NULL);
 }
 
 char *find_path(char **envp, char *cmnd)
@@ -80,7 +80,7 @@ char *find_path(char **envp, char *cmnd)
     path = NULL;
     if (!cmnd)
         return (NULL);
-    while (i < 100)
+    while (i < 100 && envp[i])
     {
         if (strncmp(envp[i], "PATH=", 5) == 0)
         {
@@ -89,8 +89,8 @@ char *find_path(char **envp, char *cmnd)
         }
         i++;
     }
-    if (!path)
-        return (write(1, "Error: No path found.\n", 22), NULL);
+    if (!path || !*path || !envp[i] || i == 100)
+        return (printf("zsh: command not found: %s\n", cmnd), NULL);
     arr = split_path(path);
     if (!arr)
         return (NULL);
