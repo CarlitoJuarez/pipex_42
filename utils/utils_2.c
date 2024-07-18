@@ -14,7 +14,7 @@ char *file_read(char *file)
             printf("zsh: permission denied: %s\n", file);
         return (NULL);
     }
-    content = get_next_line(fd, 0);
+    content = get_next_line(fd, 0, -1);
     if (!content)
         return (NULL);
     close(fd);

@@ -36,6 +36,11 @@ int     file_check_w(char *file);
 
 char    *file_read(char *file);
 
+
+// basic functions 3
+
+char    *special_case_dev(char *cmnd_list, char **arg_list);
+
 // flags & paths
 
 char    *find_path(char **envp, char *cmnd);
@@ -44,7 +49,7 @@ char    **flags(char *s);
 
 // get_next_line
 
-char    *get_next_line(int fd, char *limiter);
+char    *get_next_line(int fd, char *limiter, int times);
 
 // split function
 
@@ -53,6 +58,7 @@ char    **split_path(char *path);
 // exec cmnd
 
 char    *exec_cmnd(char *path, char **cmnd_list, char *content);
+char    *exec_cmnd_dev(char *path, char **cmnd_list);
 
 
 // ft_printf

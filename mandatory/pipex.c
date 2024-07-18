@@ -53,25 +53,30 @@ char ***fill_arg_list(char **cmnds, int size, char **envp)
 void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list, char **cmnd_list)
 {
     int i;
-    int fd_2;
 
-    i = 0;
-    if (!content)
+    i = -1;
+    if (!content && ft_strcmp(file_1, "/dev/stdin"))
+    {
+        content = special_case_dev(*cmnd_list, *arg_list);
+        i++;
+    }
+    else if (!content)
         content = file_read(file_1);
-    while (*(cmnd_list + i))
+    while (*(cmnd_list + ++i))
     {
         if (!content)
             break;
         content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
-        i++;
     }
-    fd_2 = open(file_2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd_2 == -1)
+    if (ft_strcmp(file_1, "here_doc"))
+        i = open(file_2, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    else    
+        i = open(file_2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (i == -1)
         return (perror("open"), free_them_all(content, cmnd_list, arg_list));
     if (content)
-        write(fd_2, content, strlen(content));
-    close(fd_2);
-    free_them_all(content, cmnd_list, arg_list);
+        write(i, content, strlen(content));
+    return (close(i), free_them_all(content, cmnd_list, arg_list));
 }
 
 void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
@@ -83,10 +88,10 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
 
     content = NULL;
     i = 0;
+    if (ft_strcmp(file_1, "here_doc"))
+        content = get_next_line(0, cmnds++[0], -2);
     while (cmnds[i] != file_2)
         i++;
-    if (ft_strcmp(file_1, "here_doc"))
-        content = get_next_line(0, cmnds++[0]);
     arg_list = fill_arg_list(cmnds, i, envp);
     if (!arg_list)
         return ;
@@ -103,7 +108,7 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
-    if (argc == 5)
+    if (argc >= 5)
     {
         if ( !( file_check_w(argv[argc - 1]) && file_check_r(argv[1]) ) )
             return (0);
