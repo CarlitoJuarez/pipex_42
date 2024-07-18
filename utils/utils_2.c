@@ -1,6 +1,3 @@
-#include <sys/stat.h>
-#include <errno.h>
-
 #include "../pipex.h"
 
 char *file_read(char *file)
