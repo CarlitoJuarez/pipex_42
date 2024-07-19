@@ -74,12 +74,13 @@ char *read_this(int fd, char *buf, char *limiter, int times)
         if (!res)
             return(NULL);
 		if (fd == 0 && times == -2)
-        	write(1, "pipe heredoc> ", 14);
+        	write(1, ">> ", 3);
         bytes = read(fd, res, BUF_SIZE);
         if (bytes < 0)
             return (perror("read"), free(res), NULL);
         res[bytes] = 0;
-        if ( ( fd == 0 && times == -2 && ft_strcmp(res, limiter) ) || !bytes )
+        if ( ( fd == 0 && times == -2 && ( res[0] != '\n' && ft_strcmp(res, limiter) ) )
+        || !bytes )
             break;
         if (fd == 0 && times > 0 && ft_strstr(res, limiter))
             times--;

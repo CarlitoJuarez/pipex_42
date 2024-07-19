@@ -56,11 +56,8 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
 
     i = -1;
     if (!content && ft_strcmp(file_1, "/dev/stdin"))
-    {
-        content = special_case_dev(*cmnd_list, *arg_list);
-        i++;
-    }
-    else if (!content)
+        content = special_case_dev(*cmnd_list, arg_list[++i]);
+    if (!content)
         content = file_read(file_1);
     while (*(cmnd_list + ++i))
     {
