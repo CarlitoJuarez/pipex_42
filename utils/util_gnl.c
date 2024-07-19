@@ -25,9 +25,9 @@ char	*ft_strjoin(char *s1, char *s2, int times)
 	j = 0;
 	while (*(s2 + j))
 		new[i++] = s2[j++];
+    free(s1);
     if (times != 0)
-        free(s1);
-    free(s2);
+        free(s2);
 	return (new);
 }
 
