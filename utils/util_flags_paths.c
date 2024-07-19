@@ -113,7 +113,7 @@ char *find_path(char **envp, char *cmnd)
         i++;
     }
     if (!path || !*path || !envp[i] || i == 100)
-        return (printf("zsh: command not found: %s\n", cmnd), NULL);
+        return (ft_printf("zsh: command not found: %s\n", cmnd), NULL);
     arr = split_path(path);
     if (!arr)
         return (NULL);

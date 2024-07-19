@@ -50,7 +50,7 @@ char *special_case_dev(char *cmnd_list, char **arg_list)
         if (check_num(arg_list[2]))
             return (get_next_line(0, "\n", ft_atoi(arg_list[2])));
         else
-            printf("head: illegal line count -- %s\n", arg_list[2]);
+            ft_printf("head: illegal line count -- %s\n", arg_list[2]);
     }
     return (NULL);
 }

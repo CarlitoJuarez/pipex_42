@@ -9,9 +9,9 @@ char *file_read(char *file)
     if (fd == -1)
     {
         if (errno == 2)
-            printf("zsh: no such file or directory: %s\n", file);
+            ft_printf("zsh: no such file or directory: %s\n", file);
         else if (errno == 14)
-            printf("zsh: permission denied: %s\n", file);
+            ft_printf("zsh: permission denied: %s\n", file);
         return (NULL);
     }
     content = get_next_line(fd, 0, -1);
@@ -31,7 +31,7 @@ int file_check_r(char *file)
         if (errno == 2)
             return (1);
         if (errno == 13)
-            printf("zsh: permission denied: %s\n", file);
+            ft_printf("zsh: permission denied: %s\n", file);
         return (0);
     }
     close(fd);
@@ -48,7 +48,7 @@ int file_check_w(char *file)
         if (errno == 2)
             return (1);
         if (errno == 13)
-            printf("zsh: permission denied: %s\n", file);
+            ft_printf("zsh: permission denied: %s\n", file);
         return (0);
     }
     close(fd);
