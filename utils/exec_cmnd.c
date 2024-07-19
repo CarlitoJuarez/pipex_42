@@ -98,7 +98,6 @@ char *exec_cmnd_dev(char *path, char **cmnd_list)
     tmp_fd = open(".txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
     if (tmp_fd == -1)
         return (perror("open tmpfile:"), NULL);
-        // maybe free_list(cmnd_list);
     pid = fork();
     if (pid < 0)
     {

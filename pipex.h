@@ -60,7 +60,6 @@ char    **split_path(char *path);
 char    *exec_cmnd(char *path, char **cmnd_list, char *content);
 char    *exec_cmnd_dev(char *path, char **cmnd_list);
 
-
 // ft_printf
 
 int		ft_printf(const char *str, ...);
