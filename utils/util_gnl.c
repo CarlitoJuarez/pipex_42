@@ -1,14 +1,12 @@
 #include "../pipex.h"
 
-char	*ft_strjoin(char **buf, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*new;
-    char *s1;
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-    s1 = *buf;
 	while ( s1 && *(s1 + i) )
 		i++;
 	j = 0;
@@ -28,30 +26,7 @@ char	*ft_strjoin(char **buf, char *s2)
 	while (*(s2 + j))
 		new[i++] = s2[j++];
     free(s2);
-    printf("NEW: %s$\n", new);
 	return (new);
-}
-
-int check_end(char *res, char *limiter)
-{
-    int i;
-    int j;
-
-    i = 0;
-    j = 0;
-    while (*(limiter + j))
-        j++;
-    while (*(res + i) && *(res + i) != '\n')
-        i++;
-    i -= j;
-    if (i < 0)
-        return (0);
-    j = 0;
-    while ( *(res + i + j) == *(limiter + j) )
-        j++;
-    if (*(res + i + j) == '\n' || !*(res + i + j))
-        return (1);
-    return (0);
 }
 
 int ft_strstr(char *s1, char *s2)
@@ -88,17 +63,16 @@ char *read_this(int fd, char *buf, char *limiter, int times)
         if (!res)
             return(NULL);
 		if (fd == 0 && times == -2)
-        	write(1, ">> ", 3);
+        	write(1, "pipe heredoc> ", 14);
         bytes = read(fd, res, BUF_SIZE);
         if (bytes < 0)
             return (perror("read"), free(res), NULL);
         res[bytes] = 0;
-        if ( ( fd == 0 && times == -2 && check_end(res, limiter) ) || !bytes )
+        if ( ( fd == 0 && times == -2 && ft_strcmp(res, limiter) ) || !bytes )
             break;
         if (fd == 0 && times > 0 && ft_strstr(res, limiter))
             times--;
-        res = ft_strjoin(&buf, res);
-        free(res);
+        buf = ft_strjoin(buf, res);
     }
     if (res)
         free(res);

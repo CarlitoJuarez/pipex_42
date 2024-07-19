@@ -94,6 +94,7 @@ char *exec_cmnd_dev(char *path, char **cmnd_list)
     int tmp_fd;
     char *content;
 
+    content = NULL;
     tmp_fd = open(".txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
     if (tmp_fd == -1)
         return (perror("open tmpfile:"), NULL);

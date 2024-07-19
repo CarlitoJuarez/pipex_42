@@ -93,16 +93,15 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
     while (cmnds[i] != file_2)
         i++;
     arg_list = fill_arg_list(cmnds, i, envp);
-    if (!arg_list)
+    if (!arg_list && content)
+        return (free(content));
+    else if (!arg_list && !content)
         return ;
     cmnd_list = fill_cmnd_list(arg_list, envp, i);
-    if (!cmnd_list)
-    {
-        if (content)
-            free(content);
-        free_list_list(arg_list);
-        return ;
-    }
+    if (!cmnd_list && content)
+        return (free_list_list(arg_list), free(content));
+    else if (!cmnd_list && !content)
+        return (free_list_list(arg_list));
     continue_pipex(file_1, file_2, content, arg_list, cmnd_list);
 }
 
