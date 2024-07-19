@@ -1,6 +1,6 @@
 #include "../pipex.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, int times)
 {
 	char	*new;
 	size_t	i;
@@ -25,9 +25,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	j = 0;
 	while (*(s2 + j))
 		new[i++] = s2[j++];
-    free(s1);
+    if (times != 0)
+        free(s1);
     free(s2);
-    printf("ALLOC: %s\n", new);
 	return (new);
 }
 
@@ -74,7 +74,7 @@ char *read_this(int fd, char *buf, char *limiter, int times)
             break;
         if (fd == 0 && times > 0 && ft_strstr(res, limiter))
             times--;
-        buf = ft_strjoin(buf, res);
+        buf = ft_strjoin(buf, res, times);
     }
     if (res)
         free(res);
