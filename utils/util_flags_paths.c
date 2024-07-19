@@ -52,6 +52,29 @@ char **flags(char *s)
     return (flags_continue(s, flags, args, i));
 }
 
+int trim_cmnd(char *cmnd)
+{
+    int i;
+    int check;
+
+    i = -1;
+    check = 0;
+    while (cmnd[++i])
+    {
+        if (cmnd[i] == '/')
+            check = 1;
+    }
+    if (check == 1)
+    {
+        i--;
+        while (cmnd[i] != '/')
+            i--;
+        return (i);
+    }
+    else
+        return (0);
+}
+
 char *find_path_continue(char **arr, char *cmnd)
 {
     int i;
@@ -60,7 +83,7 @@ char *find_path_continue(char **arr, char *cmnd)
     i = 0;
     while (arr[i])
     {
-        full_path = concat_full_path(arr[i++], cmnd);
+        full_path = concat_full_path(arr[i++], cmnd + trim_cmnd(cmnd));
         if (!full_path)
             return (free_list(arr), NULL);
         if (!access(full_path, X_OK))
