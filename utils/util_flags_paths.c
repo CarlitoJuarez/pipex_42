@@ -90,7 +90,7 @@ char *find_path_continue(char **arr, char *cmnd)
             return (free_list(arr), full_path);
         free(full_path);
     }
-    return (ft_printf("zsh: command not found: %s\n", cmnd), free_list(arr), NULL);
+    return (ft_printf("zsh: command not found: %s\n", cmnd + trim_cmnd(cmnd)), free_list(arr), NULL);
 }
 
 char *find_path(char **envp, char *cmnd)

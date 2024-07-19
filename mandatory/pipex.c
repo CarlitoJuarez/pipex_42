@@ -66,7 +66,6 @@ void continue_pipex(char *file_1, char *file_2, char *content, char ***arg_list,
     {
         if (!content)
             break;
-        printf("CONT: %s\n", content);
         content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
     }
     if (ft_strcmp(file_1, "here_doc"))
@@ -93,8 +92,6 @@ void pipex(char *file_1, char *file_2, char **cmnds, char **envp)
         content = get_next_line(0, cmnds++[0], -2);
     while (cmnds[i] != file_2)
         i++;
-    // if (ft_strcmp(cmnds[0], "ls") && ft_strcmp(cmnds[1], "ls -l"))
-        // cmnds++;
     arg_list = fill_arg_list(cmnds, i, envp);
     if (!arg_list && content)
         return (free(content));
