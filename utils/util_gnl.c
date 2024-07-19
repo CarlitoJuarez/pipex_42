@@ -16,12 +16,9 @@ char	*ft_strjoin(char *s1, char *s2, int times)
 	if (!new)
 		return (NULL);
 	new[i + j] = 0;
-	i = 0;
-	while ( s1 && *(s1 + i) )
-	{
+	i = -1;
+	while ( s1 && *(s1 + ++i) )
 		new[i] = s1[i];
-		i++;
-	}
 	j = 0;
 	while (*(s2 + j))
 		new[i++] = s2[j++];
