@@ -25,7 +25,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	j = 0;
 	while (*(s2 + j))
 		new[i++] = s2[j++];
+    free(s1);
     free(s2);
+    printf("ALLOC: %s\n", new);
 	return (new);
 }
 
