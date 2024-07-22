@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 16:06:43 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/22 16:07:26 by cjuarez          ###   ########.fr       */
+/*   Created: 2024/07/22 14:07:14 by cjuarez           #+#    #+#             */
+/*   Updated: 2024/07/22 16:06:04 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	***fill_arg_list(char **cmnds, int size, char **envp)
 }
 
 void	continue_pipex(char **argv, char *content,
-			char ***arg_list, char **cmnd_list)
+				char ***arg_list, char **cmnd_list)
 {
 	int	i;
 
@@ -74,13 +74,12 @@ void	continue_pipex(char **argv, char *content,
 		content = file_read(argv[1]);
 	while (*(cmnd_list + ++i))
 	{
-		printf("cont: %s\n", content);
 		if (!content)
 			break ;
 		content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
 	}
-	if (ft_strcmp(argv[1], "here_doc"))
-		i = open(argv[i + 3], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (ft_strcmp(argv[0], "here_doc"))
+		i = open(argv[i + 2], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		i = open(argv[i + 2], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (i == -1)
@@ -104,15 +103,17 @@ void	pipex(char **argv, char **envp)
 	while (argv[3 + i])
 		i++;
 	arg_list = fill_arg_list(argv + 2, i, envp);
-	if (!arg_list && content)
-		return (free(content));
-	else if (!arg_list && !content)
-		return ;
+	// if (!arg_list && content)
+	// 	return (free(content));
+	// else if (!arg_list && !content)
+	// 	return ;
 	cmnd_list = fill_cmnd_list(arg_list, envp, i);
-	if (!cmnd_list && content)
-		return (free_list_list(arg_list), free(content));
-	else if (!cmnd_list && !content)
-		return (free_list_list(arg_list));
+	if (!cmnd_list)
+		printf("FUCK2\n");
+	// // if (!cmnd_list && content)
+	// // 	return (free_list_list(arg_list), free(content));
+	// // else if (!cmnd_list && !content)
+	// // 	return (free_list_list(arg_list));
 	continue_pipex(argv, content, arg_list, cmnd_list);
 }
 

@@ -70,21 +70,23 @@ int	file_check_w(char *file)
 void	free_list(char **arr)
 {
 	int	i;
+	int size;
 
 	i = 0;
-	while (*(arr + i))
-		i++;
-	i--;
-	while (i)
+	size = 0;
+	while (*(arr + size))
+		size++;
+	while (i < size)
 	{
-		free(*(arr + i));
-		*(arr + i) = NULL;
-		i--;
+		printf("arr: %s$\n", arr[i]);
+		if (*(arr + i))
+		{
+			printf("HURE\n");
+			free(*(arr + i));
+		}
+		i++;
 	}
-	free(*arr);
-	*arr = NULL;
-	free(arr);
-	arr = NULL;
+	printf("DONE\n");
 }
 
 void	free_list_list(char ***arr)
@@ -98,7 +100,5 @@ void	free_list_list(char ***arr)
 	while (i)
 		free_list(*(arr + i--));
 	free_list(*arr);
-	*arr = NULL;
 	free(arr);
-	arr = NULL;
 }

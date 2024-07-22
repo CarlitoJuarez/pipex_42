@@ -86,7 +86,7 @@ char	*read_this(int fd, char *buf, char *limiter, int times)
 		if (!res)
 			return (NULL);
 		if (fd == 0 && times == -2)
-			write(1, ">> ", 3);
+			write(1, "pipe heredoc> ", 15);
 		bytes = read(fd, res, BUF_SIZE);
 		if (bytes < 0)
 			return (perror("read"), free(res), NULL);

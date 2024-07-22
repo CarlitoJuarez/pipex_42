@@ -61,9 +61,11 @@ int	check_num(char *s)
 
 char	*special_case_dev(char *cmnd_list, char **arg_list)
 {
+	if (!cmnd_list || !arg_list)
+		return (NULL);
 	if (ft_strcmp("ls", arg_list[0]))
 		return (exec_cmnd_dev(cmnd_list, arg_list));
-	else if (ft_strcmp("head", arg_list[0])
+	else if (ft_strstr(arg_list[0], "head")
 		&& arg_list[1] && ft_strcmp("-n", arg_list[1]))
 	{
 		if (check_num(arg_list[2]))

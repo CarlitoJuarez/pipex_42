@@ -6,7 +6,7 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:03:47 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/22 14:06:47 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/22 17:03:30 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ char	*file_read(char *file);
 void	free_it(char *s);
 char	*special_case_dev(char *cmnd_list, char **arg_list);
 
+// basic functions 4
+
+size_t  ft_strlen(char *s);
+
 // flags & paths
 
 char	*find_path(char **envp, char *cmnd);
@@ -60,6 +64,8 @@ char	*find_path(char **envp, char *cmnd);
 char	**flags(char *s);
 
 // get_next_line
+
+int		ft_strstr(char *s1, char *s2);
 
 char	*get_next_line(int fd, char *limiter, int times);
 

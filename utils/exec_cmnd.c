@@ -37,20 +37,26 @@ char	*handle_parent(int *fd, int fd_2, char *content)
 {
 	close(fd[0]);
 	close(fd_2);
-	if (write(fd[1], content, strlen(content)) == -1)
+	if (!content)
 	{
-		perror("write:");
-		free(content);
-		content = NULL;
-		exit(EXIT_FAILURE);
+		if (write(fd[1], "", 0) == -1)
+		{
+			perror("write2:");	
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		if (write(fd[1], content, strlen(content)) == -1)
+		{
+			perror("write:");
+			exit(EXIT_FAILURE);
+		}
 	}
 	close(fd[1]);
 	wait(NULL);
-	free(content);
-	content = NULL;
+	free_it(content);
 	content = file_read(".txt");
-	if (!content)
-		return (NULL);
 	unlink(".txt");
 	return (content);
 }
