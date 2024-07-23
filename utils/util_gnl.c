@@ -94,7 +94,7 @@ char	*read_this(int fd, char *buf, char *limiter, int times)
 		if ((fd == 0 && times == -2 && (res[0] != '\n'
 					&& ft_strcmp(res, limiter))) || !bytes)
 			break ;
-		if ((fd == 0 || ft_strcmp("\t", limiter)) && times > 0 && ft_strstr(res, limiter))
+		if ((fd == 0 || ft_strcmp("\n", limiter)) && times > 0 && ft_strstr(res, limiter))
 			times--;
 		buf = ft_strjoin(buf, res, times);
 	}

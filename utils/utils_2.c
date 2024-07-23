@@ -27,9 +27,9 @@ char	*file_read(char *file)
 		return (NULL);
 	}
 	if (ft_strcmp(file, "/dev/urandom") && BUF_SIZE > 1024)
-		content = get_next_line(fd, "\t", make_smaller(BUF_SIZE));
+		content = get_next_line(fd, "\n", make_smaller(BUF_SIZE));
 	else if (ft_strcmp(file, "/dev/urandom") && BUF_SIZE <= 1024)
-		content = get_next_line(fd, "\t", BUF_SIZE);
+		content = get_next_line(fd, "\n", BUF_SIZE);
 	else
 		content = get_next_line(fd, 0, -1);
 	if (!content)
