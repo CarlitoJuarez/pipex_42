@@ -91,13 +91,18 @@ void	pipex(char **argv, char **envp)
 	content = NULL;
 	i = 0;
 	if (ft_strcmp(argv[1], "here_doc"))
-		content = get_next_line(0, argv++[2], -2);
-	else if (!content && !ft_strcmp(argv[1], "/dev/stdin"))
-		content = file_read(argv++[1]);
+		argv++;
 	while (argv[3 + i])
 		i++;
 	if (i > 2)
-		return (ft_printf("FAIL: to many args\n"), free_it(content));
+	{
+		ft_printf("To many args!\n");
+		return ;
+	}
+	if (ft_strcmp(argv[0], "here_doc"))
+		content = get_next_line(0, argv[1], -2);
+	else if (!content && !ft_strcmp(argv[1], "/dev/stdin"))
+		content = file_read(argv++[1]);
 	arg_list = fill_arg_list(argv + 2, i);
 	cmnd_list = fill_cmnd_list(arg_list, envp, i);
 	continue_pipex(argv, content, arg_list, cmnd_list);
