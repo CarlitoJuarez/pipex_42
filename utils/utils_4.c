@@ -34,5 +34,7 @@ int make_smaller(int size)
         size /= 1024;
     else if (size > 10000)
         size /= 102.4;
+    else if (size > 1000)
+        size /= 10.24;
     return (size);
 }

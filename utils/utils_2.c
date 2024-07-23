@@ -26,9 +26,9 @@ char	*file_read(char *file)
 			ft_printf("zsh: permission denied: %s\n", file);
 		return (NULL);
 	}
-	if (ft_strcmp(file, "/dev/urandom") && BUF_SIZE > 1024)
+	if (ft_strcmp(file, "/dev/urandom") && BUF_SIZE > 512)
 		content = get_next_line(fd, "\n", make_smaller(BUF_SIZE));
-	else if (ft_strcmp(file, "/dev/urandom") && BUF_SIZE <= 1024)
+	else if (ft_strcmp(file, "/dev/urandom") && BUF_SIZE <= 512)
 		content = get_next_line(fd, "\n", BUF_SIZE);
 	else
 		content = get_next_line(fd, 0, -1);
