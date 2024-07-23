@@ -23,22 +23,3 @@ char *fill_nil()
     s[3] = '\0';
     return (s);
 }
-
-// int make_smaller(int size)
-// {
-//     if (size > 20000000)
-//         size /= (1024 * 100);
-//     else if (size > 2000000)
-//         size /= (1024 * 100);
-//     else if (size > 200000)
-//         size /= (1024 * 10);
-//     else if (size > 20000)
-//         size /= 1024;
-//     else if (size > 2000)
-//         size /= 100.24;
-//     else if (size > 200)
-//         size /= 10.24;
-//     else if (size > 20)
-//         size = 20;
-//     return (size);
-// }

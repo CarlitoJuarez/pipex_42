@@ -99,15 +99,7 @@ void	pipex(char **argv, char **envp)
 	if (i > 2)
 		return (ft_printf("FAIL: to many args\n"), free_it(content));
 	arg_list = fill_arg_list(argv + 2, i);
-	// if (!arg_list && content)
-	// 	return (free(content));
-	// else if (!arg_list && !content)
-	// 	return ;
 	cmnd_list = fill_cmnd_list(arg_list, envp, i);
-	// if (!cmnd_list && content)
-	// 	return (free_list_list(arg_list), free(content));
-	// else if (!cmnd_list && !content)
-	// 	return (free_list_list(arg_list));
 	continue_pipex(argv, content, arg_list, cmnd_list);
 }
 
