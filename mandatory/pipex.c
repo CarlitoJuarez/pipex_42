@@ -28,7 +28,7 @@ char	**fill_cmnd_list(char ***arg_list, char **envp, int size)
 	{
 		path = find_path(envp, arg_list[i][0]);
 		if (!path)
-			*(cmnd_list + i) = "dies";
+			*(cmnd_list + i) = fill_nil();
 		else
 			*(cmnd_list + i) = path;
 		i++;
@@ -59,25 +59,9 @@ void	continue_pipex(char **argv, char *content,
 	i = 0;
 	if (!content && ft_strcmp(argv[1], "/dev/stdin"))
 		content = special_case_dev(*cmnd_list, arg_list[++i]);
-	else if (!content)
-		content = file_read(argv[1]);
-
-	int test1 = 0;
-	int test2 = 0;
-	int test3 = 0;
-	while (*(cmnd_list + test1))
-		printf("CMND: %s$\n", *(cmnd_list + test1++));
-	while (arg_list[test2])
-	{
-		test3 = 0;
-		while (arg_list[test2][test3])
-			printf("arg: %s$\n", arg_list[test2][test3++]);
-		test2++;
-	}
-
 	while (cmnd_list && *(cmnd_list + i))
 	{
-		if (ft_strcmp(*(cmnd_list + i), "dies"))
+		if (ft_strcmp(*(cmnd_list + i), "nil"))
 			content = NULL;
 		else
 			content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
@@ -106,13 +90,13 @@ void	pipex(char **argv, char **envp)
 	i = 0;
 	if (ft_strcmp(argv[1], "here_doc"))
 		content = get_next_line(0, argv++[2], -2);
+	else if (!content && !ft_strcmp(argv[1], "/dev/stdin"))
+		content = file_read(argv[1]);
 	while (argv[3 + i])
 		i++;
 	if (i > 2)
 		return (ft_printf("FAIL: to many args\n"), free_it(content));
 	arg_list = fill_arg_list(argv + 2, i);
-	if (!arg_list[0][0])
-		printf("HURESSSOHN\n");
 	// if (!arg_list && content)
 	// 	return (free(content));
 	// else if (!arg_list && !content)
