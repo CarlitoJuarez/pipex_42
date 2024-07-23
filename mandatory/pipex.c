@@ -6,7 +6,7 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:07:14 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/22 16:06:04 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/23 15:09:42 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,34 +51,34 @@ char	***fill_arg_list(char **cmnds, int size)
 	return (arg_list);
 }
 
-void	continue_pipex(char **argv, char *content,
-				char ***arg_list, char **cmnd_list)
+void	continue_pipex(char **argv, char *c,
+				char ***arg_list, char **ls)
 {
 	int	i;
 
 	i = -1;
-	if (!content && ft_strcmp(argv[1], "/dev/stdin"))
-		content = special_case_dev(*cmnd_list, arg_list[++i]);
-	while (cmnd_list && *(cmnd_list + ++i))
+	if (!c && ft_strcmp(argv[1], "/dev/stdin"))
+		c = special_case_dev(*ls, arg_list[++i]);
+	while (ls && *(ls + ++i))
 	{
-		if (ft_strcmp(*(cmnd_list + i), "nil"))
+		if (ft_strcmp(*(ls + i), "nil"))
 		{
-			free_it(content);
-			content = NULL;
+			free_it(c);
+			c = NULL;
 		}
 		else
-			content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
+			c = exec_cmnd(*(ls + i), *(arg_list + i), c);
 	}
 	if (ft_strcmp(argv[0], "here_doc"))
 		i = open(argv[i + 2], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		i = open(argv[i + 2], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (i == -1)
-		return (perror("open"), free_them_all(content, cmnd_list, arg_list));
-	if (!content)
-		return (write(i, "", 0), close(i), free_them_all(content, cmnd_list, arg_list));
+		return (perror("open"), free_a(c, ls, arg_list));
+	if (!c)
+		return (write(i, "", 0), close(i), free_a(c, ls, arg_list));
 	else
-		return (write(i, content, ft_strlen(content)), close(i), free_them_all(content, cmnd_list, arg_list));
+		return (write(i, c, ft_strlen(c)), close(i), free_a(c, ls, arg_list));
 }
 
 void	pipex(char **argv, char **envp)
@@ -93,7 +93,7 @@ void	pipex(char **argv, char **envp)
 	if (ft_strcmp(argv[1], "here_doc"))
 		content = get_next_line(0, argv++[2], -2);
 	else if (!content && !ft_strcmp(argv[1], "/dev/stdin"))
-		content = file_read(argv[1]);
+		content = file_read(argv++[1]);
 	while (argv[3 + i])
 		i++;
 	if (i > 2)
@@ -106,9 +106,9 @@ void	pipex(char **argv, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	if (BUF_SIZE > (long)INT_MAX)
-		return(ft_printf("BUF_SIZE to large. %dl\n", BUF_SIZE), 0);
+		return (ft_printf("BUF_SIZE to large. %dl\n", BUF_SIZE), 0);
 	else if (BUF_SIZE <= 0)
-		return(ft_printf("BUF_SIZE must be positive. %dl\n", BUF_SIZE), 0);
+		return (ft_printf("BUF_SIZE must be positive. %dl\n", BUF_SIZE), 0);
 	if (argc >= 5)
 	{
 		if (!(file_check_w(argv[argc - 1]) && file_check_r(argv[1])))

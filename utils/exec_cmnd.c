@@ -41,7 +41,7 @@ char	*handle_parent(int *fd, int fd_2, char *content)
 	{
 		if (write(fd[1], "", 0) == -1)
 		{
-			perror("write2:");	
+			perror("write2:");
 			exit(EXIT_FAILURE);
 		}
 	}

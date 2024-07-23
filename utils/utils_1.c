@@ -80,7 +80,7 @@ char	*fill_str(int size, char *s, int index)
 	return (res);
 }
 
-void	free_them_all(char *content, char **cmnd_list, char ***arg_list)
+void	free_a(char *content, char **cmnd_list, char ***arg_list)
 {
 	if (content)
 		free_it(content);

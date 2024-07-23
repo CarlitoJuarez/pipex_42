@@ -6,7 +6,7 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:03:47 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/22 17:03:30 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/23 15:14:53 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 // basic functions 1
 
-void	free_them_all(char *content, char **cmnd_list, char ***arg_list);
+void	free_a(char *content, char **cmnd_list, char ***arg_list);
 
 int		ft_strcmp(char *s1, char *s2);
 int		is_space(char c);
@@ -55,8 +55,9 @@ char	*special_case_dev(char *cmnd_list, char **arg_list);
 
 // basic functions 4
 
-size_t  ft_strlen(char *s);
-char    *fill_nil();
+size_t	ft_strlen(char *s);
+
+char	*fill_nil(void);
 
 // flags & paths
 

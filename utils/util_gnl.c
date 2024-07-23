@@ -6,7 +6,7 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:26:34 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/22 16:30:16 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/23 15:07:28 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,29 +74,29 @@ int	ft_strstr(char *s1, char *s2)
 	return (0);
 }
 
-char	*read_this(int fd, char *buf, char *limiter, int times)
+char	*read_this(int fd, char *buf, char *lim, int t)
 {
 	char	*res;
 	int		bytes;
 
 	bytes = 1;
-	while (bytes > 0 && times != 0)
+	while (bytes > 0 && t != 0)
 	{
 		res = malloc(sizeof(char) * BUF_SIZE + 1);
 		if (!res)
 			return (NULL);
-		if (fd == 0 && times == -2)
+		if (fd == 0 && t == -2)
 			write(1, "pipe heredoc> ", 15);
 		bytes = read(fd, res, BUF_SIZE);
 		if (bytes < 0)
 			return (perror("read"), free(res), NULL);
 		res[bytes] = 0;
-		if ((fd == 0 && times == -2 && (res[0] != '\n'
-					&& ft_strcmp(res, limiter))) || !bytes)
+		if ((fd == 0 && t == -2 && (res[0] != '\n'
+					&& ft_strcmp(res, lim))) || !bytes)
 			break ;
-		if ((fd == 0 || ft_strcmp("\n", limiter)) && times > 0 && ft_strstr(res, limiter))
-			times--;
-		buf = ft_strjoin(buf, res, times);
+		if ((fd == 0 || ft_strcmp("\n", lim)) && t > 0 && ft_strstr(res, lim))
+			t--;
+		buf = ft_strjoin(buf, res, t);
 	}
 	if (res)
 		free(res);
