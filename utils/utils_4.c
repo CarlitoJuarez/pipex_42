@@ -24,17 +24,21 @@ char *fill_nil()
     return (s);
 }
 
-int make_smaller(int size)
-{
-    if (size > 10000000)
-        size /= (1024 * 100);
-    else if (size > 1000000)
-        size /= 1024 * 10;
-    else if (size > 100000)
-        size /= 1024;
-    else if (size > 10000)
-        size /= 102.4;
-    else if (size > 1000)
-        size /= 10.24;
-    return (size);
-}
+// int make_smaller(int size)
+// {
+//     if (size > 20000000)
+//         size /= (1024 * 100);
+//     else if (size > 2000000)
+//         size /= (1024 * 100);
+//     else if (size > 200000)
+//         size /= (1024 * 10);
+//     else if (size > 20000)
+//         size /= 1024;
+//     else if (size > 2000)
+//         size /= 100.24;
+//     else if (size > 200)
+//         size /= 10.24;
+//     else if (size > 20)
+//         size = 20;
+//     return (size);
+// }

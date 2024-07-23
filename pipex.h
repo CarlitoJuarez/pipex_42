@@ -55,7 +55,6 @@ char	*special_case_dev(char *cmnd_list, char **arg_list);
 
 // basic functions 4
 
-int     make_smaller(int size);
 size_t  ft_strlen(char *s);
 char    *fill_nil();
 
