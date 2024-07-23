@@ -62,7 +62,10 @@ void	continue_pipex(char **argv, char *content,
 	while (cmnd_list && *(cmnd_list + i))
 	{
 		if (ft_strcmp(*(cmnd_list + i), "nil"))
+		{
+			free_it(content);
 			content = NULL;
+		}
 		else
 			content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
 		i++;
