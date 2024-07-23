@@ -56,10 +56,10 @@ void	continue_pipex(char **argv, char *content,
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (!content && ft_strcmp(argv[1], "/dev/stdin"))
 		content = special_case_dev(*cmnd_list, arg_list[++i]);
-	while (cmnd_list && *(cmnd_list + i))
+	while (cmnd_list && *(cmnd_list + ++i))
 	{
 		if (ft_strcmp(*(cmnd_list + i), "nil"))
 		{
@@ -68,7 +68,6 @@ void	continue_pipex(char **argv, char *content,
 		}
 		else
 			content = exec_cmnd(*(cmnd_list + i), *(arg_list + i), content);
-		i++;
 	}
 	if (ft_strcmp(argv[0], "here_doc"))
 		i = open(argv[i + 2], O_WRONLY | O_CREAT | O_APPEND, 0644);
