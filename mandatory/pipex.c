@@ -113,6 +113,10 @@ void	pipex(char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
+	if (BUF_SIZE > (long)INT_MAX)
+		return(ft_printf("BUF_SIZE to large. %dl\n", BUF_SIZE), 0);
+	else if (BUF_SIZE <= 0)
+		return(ft_printf("BUF_SIZE must be positive. %dl\n", BUF_SIZE), 0);
 	if (argc >= 5)
 	{
 		if (!(file_check_w(argv[argc - 1]) && file_check_r(argv[1])))
