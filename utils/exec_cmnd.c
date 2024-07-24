@@ -21,12 +21,14 @@ void	handle_child(int *fd, int fd_2, char *path, char **cmnd_list)
 		exit(EXIT_FAILURE);
 	}
 	close(fd[0]);
+	printf("child: cmnd: %s fd: %d\n", path, fd_2);
 	if (dup2(fd_2, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		exit(EXIT_FAILURE);
 	}
 	close(fd_2);
+	printf("shesh\n");
 	execve(path, cmnd_list, NULL);
 	perror("execve");
 	free_list(cmnd_list);
@@ -55,7 +57,6 @@ char	*handle_parent(int *fd, int fd_2, char *content)
 	}
 	close(fd[1]);
 	wait(NULL);
-	free_it(content);
 	content = file_read(".txt");
 	unlink(".txt");
 	return (content);
@@ -67,6 +68,7 @@ char	*exec_cmnd(char *path, char **cmnd_list, char *content)
 	int	fd[2];
 	int	tmp_fd;
 
+	printf("CONT: %s\n", content);
 	tmp_fd = open(".txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (tmp_fd == -1)
 		return (free_list(cmnd_list), perror("open tmpfile:"), NULL);
@@ -76,6 +78,7 @@ char	*exec_cmnd(char *path, char **cmnd_list, char *content)
 		free_list(cmnd_list);
 		exit(EXIT_FAILURE);
 	}
+	printf("FD: %d\n", tmp_fd);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -87,6 +90,7 @@ char	*exec_cmnd(char *path, char **cmnd_list, char *content)
 		handle_child(fd, tmp_fd, path, cmnd_list);
 	else
 		content = handle_parent(fd, tmp_fd, content);
+	printf("CONT2: %s\n", content);
 	return (content);
 }
 

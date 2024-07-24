@@ -35,3 +35,17 @@ char	*fill_nil(void)
 	s[3] = '\0';
 	return (s);
 }
+
+int check_dir(int fd)
+{
+	int bytes;
+	char *res;
+
+	res = malloc(sizeof(char) * BUF_SIZE + 1);
+	if (!res) 
+		return (0);
+	bytes = read(fd, res, BUF_SIZE);
+	if (bytes < 0 && errno == EISDIR)
+		return (free_it(&res), 4);
+	return (free_it(&res), 0);
+}

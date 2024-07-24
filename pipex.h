@@ -50,11 +50,12 @@ char	*file_read(char *file);
 
 // basic functions 3
 
-void	free_it(char *s);
-char	*special_case_dev(char *cmnd_list, char **arg_list);
+void	free_it(char **s);
+char	*special_case_dev(char **cmnd_list, char ***arg_list, int i);
 
 // basic functions 4
 
+int     check_dir(int fd);
 size_t	ft_strlen(char *s);
 
 char	*fill_nil(void);

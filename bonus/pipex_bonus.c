@@ -58,14 +58,11 @@ void	continue_pipex(char **argv, char *c,
 
 	i = -1;
 	if (!c && ft_strcmp(argv[1], "/dev/stdin"))
-		c = special_case_dev(*ls, arg_list[++i]);
+		c = special_case_dev(ls, arg_list, ++i);
 	while (ls && *(ls + ++i))
 	{
 		if (ft_strcmp(*(ls + i), "nil"))
-		{
-			free_it(c);
-			c = NULL;
-		}
+			free_it(&c);
 		else
 			c = exec_cmnd(*(ls + i), *(arg_list + i), c);
 	}
@@ -97,7 +94,7 @@ void	pipex(char **argv, char **envp)
 	if (ft_strcmp(argv[0], "here_doc"))
 		content = get_next_line(0, argv[1], -2);
 	else if (!content && !ft_strcmp(argv[1], "/dev/stdin"))
-		content = file_read(argv++[1]);
+		content = file_read(argv[1]);
 	arg_list = fill_arg_list(argv + 2, i);
 	cmnd_list = fill_cmnd_list(arg_list, envp, i);
 	continue_pipex(argv, content, arg_list, cmnd_list);

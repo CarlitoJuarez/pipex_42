@@ -12,10 +12,13 @@
 
 #include "../pipex.h"
 
-void	free_it(char *s)
+void	free_it(char **s)
 {
-	if (s)
-		free(s);
+	if (s && *s)
+	{
+		free(*s);
+		*s = NULL;
+	}
 }
 
 long	ft_atoi(char *s)
@@ -59,19 +62,60 @@ int	check_num(char *s)
 	return (1);
 }
 
-char	*special_case_dev(char *cmnd_list, char **arg_list)
+int	is_head(char ***arg_list)
+{
+	int i;
+
+	i = 0;
+	while (arg_list[i])
+	{
+		if (ft_strcmp(arg_list[i][0], "head"))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	cat_times(char ***arg_list)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (arg_list[i])
+	{
+		if (ft_strcmp(arg_list[i][0], "cat"))
+			j++;
+		i++;
+	}
+	return (j);
+}
+
+char	*special_case_dev(char **cmnd_list, char ***arg_list, int i)
 {
 	if (!cmnd_list || !arg_list)
 		return (NULL);
-	if (ft_strcmp("ls", arg_list[0]))
-		return (exec_cmnd_dev(cmnd_list, arg_list));
-	else if (ft_strstr(arg_list[0], "head")
-		&& arg_list[1] && ft_strcmp("-n", arg_list[1]))
+	if (i)
+		return (NULL);
+	if (ft_strcmp("ls", arg_list[0][0]))
+		return (exec_cmnd_dev(*cmnd_list, *arg_list));
+	else if (ft_strstr(arg_list[0][0], "head"))
 	{
-		if (check_num(arg_list[2]))
-			return (get_next_line(0, "\n", ft_atoi(arg_list[2])));
-		else
-			ft_printf("head: illegal line count -- %s\n", arg_list[2]);
+		if (arg_list[0][1] && ft_strcmp("-n", arg_list[0][1]))
+		{
+			if (check_num(arg_list[0][2]))
+				return (get_next_line(0, "\n", ft_atoi(arg_list[0][2])));
+			else
+				ft_printf("head: illegal line count -- %s\n", arg_list[0][2]);
+		}
+		else if (!arg_list[0][1])
+			return (get_next_line(0, "\n", 10));
 	}
-	return (NULL);
+	else if (ft_strcmp(arg_list[0][0], "cat") && is_head(arg_list))
+		return (get_next_line(0, "\n", 10 + cat_times(arg_list)));
+	else if (ft_strcmp(arg_list[0][0], "cat") || ft_strcmp(arg_list[0][0], "wc")
+			|| ft_strcmp(arg_list[0][0], "tail"))
+		return (get_next_line(0, 0, -3));
+	return (exec_cmnd_dev(*cmnd_list, *arg_list));
 }

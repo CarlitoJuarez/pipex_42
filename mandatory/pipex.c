@@ -12,7 +12,7 @@
 
 #include "../pipex.h"
 
-char	**fill_cmnd_list(char ***arg_list, char **envp, int size)
+char	**fill_cmnd_list(char ***arg_list, char **envp, int size, char *content)
 {
 	int		i;
 	char	*path;
@@ -29,7 +29,12 @@ char	**fill_cmnd_list(char ***arg_list, char **envp, int size)
 		path = find_path(envp, arg_list[i][0]);
 		if (!path)
 			*(cmnd_list + i) = fill_nil();
-		else
+		else if (path && ft_strcmp(content, "readdir") && i == 0)
+		{
+			*(cmnd_list + i) = path;
+			ft_printf("%s: error reading 'standard input': Is a directory\n", (arg_list[0][0]));
+		}
+		else if (path)
 			*(cmnd_list + i) = path;
 		i++;
 	}
@@ -57,17 +62,17 @@ void	continue_pipex(char **argv, char *c,
 	int	i;
 
 	i = -1;
+
 	if (!c && ft_strcmp(argv[1], "/dev/stdin"))
-		c = special_case_dev(*ls, arg_list[++i]);
+		c = special_case_dev(ls, arg_list, ++i);
+	if (!file_check_r(argv[1]))
+		i++;		
 	while (ls && *(ls + ++i))
 	{
 		if (ft_strcmp(*(ls + i), "nil"))
-		{
-			free_it(c);
 			c = NULL;
-		}
 		else
-			c = exec_cmnd(*(ls + i), *(arg_list + i), c);
+			c = exec_cmnd(*(ls + i), *(arg_list + i), c);	
 	}
 	if (ft_strcmp(argv[0], "here_doc"))
 		i = open(argv[i + 2], O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -102,9 +107,9 @@ void	pipex(char **argv, char **envp)
 	if (ft_strcmp(argv[0], "here_doc"))
 		content = get_next_line(0, argv[1], -2);
 	else if (!content && !ft_strcmp(argv[1], "/dev/stdin"))
-		content = file_read(argv++[1]);
+		content = file_read(argv[1]);
 	arg_list = fill_arg_list(argv + 2, i);
-	cmnd_list = fill_cmnd_list(arg_list, envp, i);
+	cmnd_list = fill_cmnd_list(arg_list, envp, i, content);
 	continue_pipex(argv, content, arg_list, cmnd_list);
 }
 
@@ -116,7 +121,9 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_printf("BUF_SIZE must be positive. %dl\n", BUF_SIZE), 0);
 	if (argc >= 5)
 	{
-		if (!(file_check_w(argv[argc - 1]) && file_check_r(argv[1])))
+		if (!(file_check_r(argv[1])))
+			ft_printf("zsh: permission denied: %s\n", argv[1]);
+		if (!(file_check_w(argv[argc - 1])))
 			return (0);
 		pipex(argv, envp);
 	}

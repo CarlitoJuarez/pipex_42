@@ -18,6 +18,8 @@ char	*file_read(char *file)
 	char	*content;
 
 	fd = open(file, O_RDONLY);
+	printf("FILE: %s\n", file);
+	printf("FD1: %d\n", fd);
 	if (fd == -1)
 	{
 		if (errno == 2)
@@ -26,13 +28,18 @@ char	*file_read(char *file)
 			ft_printf("zsh: permission denied: %s\n", file);
 		return (NULL);
 	}
+	if (check_dir(fd) == 4)
+		return ("readdir");
+	printf("SHESH\n");
+
 	if (ft_strcmp(file, "/dev/urandom"))
 		content = get_next_line(fd, "\n", 40);
 	else
 		content = get_next_line(fd, 0, -1);
+	printf("CLOSE FD\n");
+	close(fd);
 	if (!content)
 		return (NULL);
-	close(fd);
 	return (content);
 }
 
@@ -45,8 +52,6 @@ int	file_check_r(char *file)
 	{
 		if (errno == 2)
 			return (1);
-		if (errno == 13)
-			ft_printf("zsh: permission denied: %s\n", file);
 		return (0);
 	}
 	close(fd);
@@ -79,7 +84,7 @@ void	free_list(char **arr)
 		i++;
 	i--;
 	while (i)
-		free_it(*(arr + i--));
+		free_it((arr + i--));
 	free(*arr);
 	free(arr);
 }

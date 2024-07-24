@@ -1,6 +1,6 @@
 NAME 			= pipex
 
-CC	 			= gcc
+CC	 			= cc
 
 FLAGS 			= -Wall -Wextra -Werror
 
@@ -39,7 +39,6 @@ OBJ_UTILS_FT_PRINTF		= $(PATH_UTILS_FT_PRINTF:.c=.o)
 
 $(NAME):	$(OBJ_UTILS) $(OBJ_UTILS_FT_PRINTF) $(OBJ_MANDATORY)
 							@$(CC) $(OBJ_UTILS) $(OBJ_UTILS_FT_PRINTF) $(OBJ_MANDATORY) -o $(NAME)
-
 
 all:		$(NAME)
 

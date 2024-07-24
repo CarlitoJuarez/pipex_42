@@ -83,7 +83,7 @@ char	*fill_str(int size, char *s, int index)
 void	free_a(char *content, char **cmnd_list, char ***arg_list)
 {
 	if (content)
-		free_it(content);
+		free_it(&content);
 	if (cmnd_list)
 		free_list(cmnd_list);
 	if (arg_list)
