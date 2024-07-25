@@ -18,8 +18,6 @@ char	*file_read(char *file)
 	char	*content;
 
 	fd = open(file, O_RDONLY);
-	printf("FILE: %s\n", file);
-	printf("FD1: %d\n", fd);
 	if (fd == -1)
 	{
 		if (errno == 2)
@@ -30,13 +28,13 @@ char	*file_read(char *file)
 	}
 	if (check_dir(fd) == 4)
 		return ("readdir");
-	printf("SHESH\n");
-
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (NULL);
 	if (ft_strcmp(file, "/dev/urandom"))
 		content = get_next_line(fd, "\n", 40);
 	else
 		content = get_next_line(fd, 0, -1);
-	printf("CLOSE FD\n");
 	close(fd);
 	if (!content)
 		return (NULL);

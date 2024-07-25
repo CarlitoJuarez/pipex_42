@@ -87,19 +87,16 @@ char	*read_this(int fd, char *buf, char *lim, int t)
 			return (NULL);
 		if (fd == 0 && t == -2)
 			write(1, "pipe heredoc> ", 15);
-		printf("FD gnl: %d\n", fd);
 		bytes = read(fd, res, 10);
 		if (bytes < 0)
 			return (perror("read"), free(res), NULL);
 		res[bytes] = 0;
-		printf("BYTS: %d\n", bytes);
 		if ((fd == 0 && t == -2 && (res[0] != '\n'
 					&& ft_strcmp(res, lim))) || !bytes)
 			break ;
 		if ((fd == 0 || ft_strcmp("\n", lim)) && t > 0 && ft_strstr(res, lim))
 			t--;
 		buf = ft_strjoin(buf, res, t);
-		printf("BUF: %s\n", buf);
 	}
 	if (res)
 		free(res);
@@ -127,7 +124,6 @@ char	*get_next_line(int fd, char *limiter, int times)
 			free(res);
 		}
 	}
-	printf("gnl\n");
 	buf = read_this(fd, buf, limiter, times);
 	if (!buf)
 		return (NULL);

@@ -46,6 +46,6 @@ int check_dir(int fd)
 		return (0);
 	bytes = read(fd, res, BUF_SIZE);
 	if (bytes < 0 && errno == EISDIR)
-		return (free_it(&res), 4);
-	return (free_it(&res), 0);
+		return (free_it(&res), close(fd), 4);
+	return (free_it(&res), close(fd), 0);
 }

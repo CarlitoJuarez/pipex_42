@@ -15,29 +15,29 @@
 char	**fill_cmnd_list(char ***arg_list, char **envp, int size, char *content)
 {
 	int		i;
+	int		check;
 	char	*path;
 	char	**cmnd_list;
 
-	i = 0;
+	i = -1;
+	check = 0;
 	path = NULL;
 	if (arg_list == NULL)
 		return (NULL);
 	cmnd_list = malloc(sizeof(char *) * (size + 1));
 	cmnd_list[size] = 0;
-	while (arg_list[i])
+	while (arg_list[++i])
 	{
 		path = find_path(envp, arg_list[i][0]);
 		if (!path)
 			*(cmnd_list + i) = fill_nil();
-		else if (path && ft_strcmp(content, "readdir") && i == 0)
-		{
+		else
 			*(cmnd_list + i) = path;
-			ft_printf("%s: error reading 'standard input': Is a directory\n", (arg_list[0][0]));
-		}
-		else if (path)
-			*(cmnd_list + i) = path;
-		i++;
+		if (path && ft_strcmp(content, "readdir") && i == 0)
+			check = 1;
 	}
+	if (check == 1)
+		ft_printf("%s: error reading 'standard input': Is a directory\n", (arg_list[0][0]));
 	return (cmnd_list);
 }
 
