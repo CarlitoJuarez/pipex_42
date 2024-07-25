@@ -21,20 +21,20 @@ char	**fill_cmnd_list(char ***arg_list, char **envp, int size, char *content)
 
 	i = -1;
 	check = 0;
-	path = NULL;
-	if (arg_list == NULL)
-		return (NULL);
 	cmnd_list = malloc(sizeof(char *) * (size + 1));
+	if (!cmnd_list)
+		return (NULL);
 	cmnd_list[size] = 0;
-	while (arg_list[++i])
+	while (arg_list && arg_list[++i])
 	{
-		path = find_path(envp, arg_list[i][0]);
-		if (!path)
-			*(cmnd_list + i) = fill_nil();
+		path = find_path(envp, arg_list[i][0], content);
+		if (!path || (path && ft_strcmp("void", content)))
+			*(cmnd_list + i) = fill_nil(path);
 		else
 			*(cmnd_list + i) = path;
-		if (path && ft_strcmp(content, "readdir") && i == 0)
+		if (path && ft_strcmp(content, "dir") && i == 0 && !any_of_those(arg_list[0][0]))
 			check = 1;
+		content = NULL;
 	}
 	if (check == 1)
 		ft_printf("%s: error reading 'standard input': Is a directory\n", (arg_list[0][0]));
@@ -65,12 +65,10 @@ void	continue_pipex(char **argv, char *c,
 
 	if (!c && ft_strcmp(argv[1], "/dev/stdin"))
 		c = special_case_dev(ls, arg_list, ++i);
-	if (!file_check_r(argv[1]))
-		i++;		
 	while (ls && *(ls + ++i))
 	{
-		if (ft_strcmp(*(ls + i), "nil"))
-			c = NULL;
+		if (ft_strcmp(*(ls + i), "nil") || any_of_those(c))
+			free_it(&c);
 		else
 			c = exec_cmnd(*(ls + i), *(arg_list + i), c);	
 	}
@@ -121,8 +119,6 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_printf("BUF_SIZE must be positive. %dl\n", BUF_SIZE), 0);
 	if (argc >= 5)
 	{
-		if (!(file_check_r(argv[1])))
-			ft_printf("zsh: permission denied: %s\n", argv[1]);
 		if (!(file_check_w(argv[argc - 1])))
 			return (0);
 		pipex(argv, envp);

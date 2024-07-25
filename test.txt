@@ -1,0 +1,62 @@
+MANDATORY:
+
+-   wc -l, ls -l
+-   ls -l, head -n 5
+
+Invalid cmnd:
+
+-   ls, shesh
+-   shesh, wc
+
+Invalid Infile + Invalid cmnd:
+
+1. No File:
+-   ls, wc
+-   hi, wc
+-   wc, hi
+-   hi, hi
+
+2. No permission (read) on infile
+-   ls, wc
+-   hi, wc
+-   wc, hi
+-   hi, hi
+
+3. The infile is a folder
+-   ls, wc
+-   hi, wc
+-   wc, hi
+-   hi, hi
+
+4. No permission (write) on outfile
+-   ls, wc
+-   hi, wc  <___________CUR
+-   wc, hi
+-   hi, hi
+
+HEREDOC:
+
+-   here_doc 
+-   outfile append?
+
+EDGE:
+
+-   /dev/stdin
+        - invalid cmnd
+        - bonus
+        - cat wc -l
+        - cat ls -l
+        - head 
+-   /dev/urandom
+        - invalid cmnd
+        - bonus
+-   cmnd_path:
+        - /usr/bin/head
+        - /bin/ls
+        - Invalid
+            - usr/bin/head
+            - /usr/head
+-   PATH="" / unset PATH
+    -  Invalid Infile + Invalid cmnd
+
+

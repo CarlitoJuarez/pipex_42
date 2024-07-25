@@ -22,12 +22,10 @@ char	*file_read(char *file)
 	{
 		if (errno == 2)
 			ft_printf("zsh: no such file or directory: %s\n", file);
-		else if (errno == 14)
-			ft_printf("zsh: permission denied: %s\n", file);
-		return (NULL);
+		return (fill_cont(errno));
 	}
 	if (check_dir(fd) == 4)
-		return ("readdir");
+		return (content = fill_dir(), content);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (NULL);

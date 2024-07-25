@@ -56,13 +56,19 @@ char	*special_case_dev(char **cmnd_list, char ***arg_list, int i);
 // basic functions 4
 
 int     check_dir(int fd);
+int     any_of_those(char *content);
 size_t	ft_strlen(char *s);
 
-char	*fill_nil(void);
+char	*fill_nil(char *path);
+char    *fill_dir(void);
+char    *fill_cont(int errnum);
 
+
+
+void    print_permission(char *c, char *cmnd, int access);
 // flags & paths
 
-char	*find_path(char **envp, char *cmnd);
+char	*find_path(char **envp, char *cmnd, char *content);
 
 char	**flags(char *s);
 
