@@ -6,11 +6,35 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:19:29 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/22 16:20:25 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/28 16:15:23 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
+
+size_t	ft_strlen(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (*(s + i))
+		i++;
+	return (i);
+}
+
+int	check_dir(int fd)
+{
+	int		bytes;
+	char	*res;
+
+	res = malloc(sizeof(char) * BUF_SIZE + 1);
+	if (!res)
+		return (0);
+	bytes = read(fd, res, BUF_SIZE);
+	if (bytes < 0 && errno == EISDIR)
+		return (free_it(&res), close(fd), 4);
+	return (free_it(&res), close(fd), 0);
+}
 
 char	*file_read(char *file)
 {
@@ -67,32 +91,4 @@ int	file_check_w(char *file)
 	}
 	close(fd);
 	return (1);
-}
-
-void	free_list(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (*(arr + i))
-		i++;
-	i--;
-	while (i)
-		free_it((arr + i--));
-	free(*arr);
-	free(arr);
-}
-
-void	free_list_list(char ***arr)
-{
-	int	i;
-
-	i = 0;
-	while (*(arr + i))
-		i++;
-	i--;
-	while (i)
-		free_list(*(arr + i--));
-	free_list(*arr);
-	free(arr);
 }

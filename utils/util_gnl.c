@@ -6,7 +6,7 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:26:34 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/23 15:07:28 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/28 16:18:27 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ char	*read_this(int fd, char *buf, char *lim, int t)
 char	*get_next_line(int fd, char *limiter, int times)
 {
 	static char	*buf;
-	char *res;
-	int bytes;
+	char		*res;
+	int			bytes;
 
 	buf = NULL;
 	if (times == -3)
@@ -116,7 +116,7 @@ char	*get_next_line(int fd, char *limiter, int times)
 		while (bytes)
 		{
 			res = malloc(sizeof(char) * BUF_SIZE + 1);
-			if (!res) 
+			if (!res)
 				return (NULL);
 			bytes = read(fd, res, BUF_SIZE);
 			if (bytes < 0)

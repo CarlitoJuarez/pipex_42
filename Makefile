@@ -23,7 +23,7 @@ OBJ_BONUS		= $(PATH_BONUS:.c=.o)
 
 # UTILS
 DIR_UTILS		= utils/
-SRCS_UTILS		= utils_1.c utils_2.c utils_3.c utils_4.c util_gnl.c util_split.c exec_cmnd.c util_flags_paths.c
+SRCS_UTILS		= utils_1.c utils_2.c utils_3.c util_fill.c util_free.c util_special.c util_gnl.c util_split.c exec_cmnd.c util_flags_paths.c
 PATH_UTILS		= $(addprefix $(DIR_UTILS), $(SRCS_UTILS))
 OBJ_UTILS		= $(PATH_UTILS:.c=.o)
 

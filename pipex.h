@@ -6,7 +6,7 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:03:47 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/23 15:14:53 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/28 17:20:04 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,56 +30,64 @@
 
 // basic functions 1
 
-void	free_a(char *content, char **cmnd_list, char ***arg_list);
-
-int		ft_strcmp(char *s1, char *s2);
 int		is_space(char c);
+int		ft_strcmp(char *s1, char *s2);
+int		any_of_those(char *content);
 
-char	*concat_full_path(char *cmnd, char *path);
 char	*fill_str(int size, char *s, int index);
+char	*concat_full_path(char *cmnd, char *path);
 
 // basic functions 2
 
-void	free_list(char **arr);
-void	free_list_list(char ***arr);
+void	handle_err(int errnum);
 
 int		file_check_r(char *file);
 int		file_check_w(char *file);
+
+size_t	ft_strlen(char *s);
 
 char	*file_read(char *file);
 
 // basic functions 3
 
-void	free_it(char **s);
-char	*special_case_dev(char **cmnd_list, char ***arg_list, int i);
+void	print_p(char *c, char *cmnd, int access, char *last);
 
-// basic functions 4
+int		check_num(char *s);
 
-int     check_dir(int fd);
-int     any_of_those(char *content);
-size_t	ft_strlen(char *s);
+long	ft_atoi(char *s);
+
+// fill
 
 char	*fill_nil(char *path);
 char	*fill_acc(char *this);
-char    *fill_dir(void);
-char    *fill_cont(int errnum);
+char	*fill_dir(void);
+char	*fill_cont(int errnum);
+char	*fill_this(char *this);
 
-
-
-void    print_permission(char *c, char *cmnd, int access, char *last);
 // flags & paths
 
-int     trim_cmnd(char *cmnd);
+int		trim_cmnd(char *cmnd);
 
 char	*find_path(char **envp, char *cmnd, char *content, char *last);
 
 char	**flags(char *s);
+
+// free
+
+void	free_it(char **s);
+void	free_a(char *content, char **cmnd_list, char ***arg_list);
+void	free_list(char **arr);
+void	free_list_list(char ***arr);
 
 // get_next_line
 
 int		ft_strstr(char *s1, char *s2);
 
 char	*get_next_line(int fd, char *limiter, int times);
+
+// special case /dev/stdin
+
+char	*special_dev(char **cmnd_list, char ***arg_list, int i, char **envp);
 
 // split function
 

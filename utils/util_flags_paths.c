@@ -6,7 +6,7 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:11:08 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/22 16:16:43 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/28 16:12:28 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	trim_cmnd(char *cmnd)
 	return (0);
 }
 
-char	*find_path_continue(char **arr, char *cmnd, char *content, char *last)
+char	*find_path_2(char **arr, char *cmnd, char *content, char *last)
 {
 	int		i;
 	int		check;
@@ -106,14 +106,14 @@ char	*find_path_continue(char **arr, char *cmnd, char *content, char *last)
 		else if (access(cmnd, X_OK))
 			break ;
 		else
-			full_path = find_path_continue(arr, cmnd + trim_cmnd(cmnd), content, last);
+			full_path = find_path_2(arr, cmnd + trim_cmnd(cmnd), content, last);
 		if (!access(full_path, X_OK) && check == 1)
-			return (print_permission(content, cmnd, 1, last), free_list(arr), full_path);
+			return (print_p(content, cmnd, 1, last), free_list(arr), full_path);
 		else if (!access(full_path, X_OK))
 			return (full_path);
 		free(full_path);
 	}
-	return (print_permission(content, cmnd, 0, last), free_list(arr), NULL);
+	return (print_p(content, cmnd, 0, last), free_list(arr), NULL);
 }
 
 char	*find_path(char **envp, char *cmnd, char *content, char *last)
@@ -126,9 +126,11 @@ char	*find_path(char **envp, char *cmnd, char *content, char *last)
 	path = NULL;
 	if (!cmnd)
 		return (NULL);
+	if (!access(cmnd, X_OK))
+		return (print_p(content, cmnd, 1, last), fill_this(cmnd));
 	while (i < 100 && envp[i])
 	{
-		if (strncmp(envp[i], "PATH=", 5) == 0)
+		if (ft_strcmp("PATH=", envp[i]))
 		{
 			path = envp[i] + 5;
 			break ;
@@ -136,9 +138,9 @@ char	*find_path(char **envp, char *cmnd, char *content, char *last)
 		i++;
 	}
 	if (!path || !*path || !envp[i] || i == 100)
-		return (print_permission(content, cmnd, 0, last), NULL);
+		return (print_p(content, cmnd, 0, last), NULL);
 	arr = split_path(path);
 	if (!arr)
 		return (NULL);
-	return (find_path_continue(arr, cmnd, content, last));
+	return (find_path_2(arr, cmnd, content, last));
 }

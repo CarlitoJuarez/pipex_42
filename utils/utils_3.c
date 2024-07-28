@@ -6,19 +6,16 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:20:45 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/22 16:23:37 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/28 16:17:11 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	free_it(char **s)
+void	handle_err(int errnum)
 {
-	if (s && *s)
-	{
-		free(*s);
-		*s = NULL;
-	}
+	if (!(errnum == 13))
+		perror("open:");
 }
 
 long	ft_atoi(char *s)
@@ -62,60 +59,25 @@ int	check_num(char *s)
 	return (1);
 }
 
-int	is_head(char ***arg_list)
+void	print_p(char *c, char *cmnd, int access, char *last)
 {
-	int i;
-
-	i = 0;
-	while (arg_list[i])
+	if (ft_strcmp("dir", c) && access)
+		ft_printf("%s: error reading 'standard input': Is a directory\n", cmnd);
+	if (!ft_strcmp(cmnd, last))
 	{
-		if (ft_strcmp(arg_list[i][0], "head"))
-			return (1);
-		i++;
+		if (!ft_strcmp("exi", c) && !access && !ft_strcmp("nil", cmnd)
+			&& trim_cmnd(cmnd) && !ft_strcmp("acc", last))
+			ft_printf("zsh: no such file or directory: %s\n", cmnd);
+		else if (!ft_strcmp("exi", c) && !ft_strcmp("per", c)
+			&& !ft_strcmp("nil", cmnd) && !access && !trim_cmnd(cmnd))
+			ft_printf("zsh: command not found: %s\n", cmnd);
+		else if (ft_strcmp("per", c))
+			ft_printf("zsh: permission denied: inpermission\n");
 	}
-	return (0);
-}
-
-int	cat_times(char ***arg_list)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (arg_list[i])
-	{
-		if (ft_strcmp(arg_list[i][0], "cat"))
-			j++;
-		i++;
-	}
-	return (j);
-}
-
-char	*special_case_dev(char **cmnd_list, char ***arg_list, int i)
-{
-	if (!cmnd_list || !arg_list)
-		return (NULL);
-	if (i)
-		return (NULL);
-	if (ft_strcmp("ls", arg_list[0][0]))
-		return (exec_cmnd_dev(*cmnd_list, *arg_list));
-	else if (ft_strstr(arg_list[0][0], "head"))
-	{
-		if (arg_list[0][1] && ft_strcmp("-n", arg_list[0][1]))
-		{
-			if (check_num(arg_list[0][2]))
-				return (get_next_line(0, "\n", ft_atoi(arg_list[0][2])));
-			else
-				ft_printf("head: illegal line count -- %s\n", arg_list[0][2]);
-		}
-		else if (!arg_list[0][1])
-			return (get_next_line(0, "\n", 10));
-	}
-	else if (ft_strcmp(arg_list[0][0], "cat") && is_head(arg_list))
-		return (get_next_line(0, "\n", 10 + cat_times(arg_list)));
-	else if (ft_strcmp(arg_list[0][0], "cat") || ft_strcmp(arg_list[0][0], "wc")
-			|| ft_strcmp(arg_list[0][0], "tail"))
-		return (get_next_line(0, 0, -3));
-	return (exec_cmnd_dev(*cmnd_list, *arg_list));
+	else if (!trim_cmnd(cmnd) && !access && !ft_strcmp("acc", last))
+		ft_printf("zsh: command not found: %s\n", cmnd);
+	else if (!access && !ft_strcmp("acc", last))
+		ft_printf("zsh: no such file or directory: %s\n", cmnd);
+	else if (ft_strcmp("acc", cmnd))
+		ft_printf("zsh: permission denied: outfile\n");
 }
