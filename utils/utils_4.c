@@ -39,6 +39,23 @@ char	*fill_nil(char *path)
 	return (s);
 }
 
+char	*fill_acc(char *this)
+{
+	char	*s;
+
+	if (this)
+		free(this);
+	this = NULL;
+	s = malloc(sizeof(char) * (3 + 1));
+	if (!s)
+		return (NULL);
+	s[0] = 'a';
+	s[1] = 'c';
+	s[2] = 'c';
+	s[3] = '\0';
+	return (s);
+}
+
 
 int check_dir(int fd)
 {
@@ -54,13 +71,39 @@ int check_dir(int fd)
 	return (free_it(&res), close(fd), 0);
 }
 
-void print_permission(char *c, char *cmnd, int access)
+void print_permission(char *c, char *cmnd, int access, char *last)
 {
-	if (ft_strcmp(c, "perm"))
-		ft_printf("zsh: permission denied: inpermission\n");
-	else if (!ft_strcmp(c, "exi") && !access)
-		ft_printf("zsh: command not found: %s\n", cmnd);
+	printf("CMND: %s$\n", cmnd);
+	printf("Content: %s\n", c);
+	printf("Last: %s$\n", last);
+	printf("TRIM: %d\n", trim_cmnd(cmnd));
+	printf("ACC: %d\n", access);
+	int check;
 
+	check = 0;
+	if (!ft_strcmp(c, "exi") && !access && !ft_strcmp("nil", cmnd) && !trim_cmnd(cmnd) && ft_strcmp("acc", last) && !ft_strcmp(cmnd, last))
+		{
+			// ft_printf("zsh: no such file or directory: %s\n", cmnd);
+			// ft_printf("zsh: permission denied: outfile\n");
+			printf("HURE\n");
+			check = 1;
+		}
+	if (!ft_strcmp(cmnd, last))
+	{
+		if (ft_strcmp("acc", last) && !trim_cmnd(cmnd) && access)
+		{
+			ft_printf("zsh: permission denied: outfile\n");
+			check = 0;
+		}
+		if (!ft_strcmp(c, "exi") && !access && !ft_strcmp("nil", cmnd) && trim_cmnd(cmnd) && ft_strcmp("acc", last))
+			ft_printf("zsh: no such file or directory: %s\n", cmnd);
+		else if (!ft_strcmp(c, "exi") && !ft_strcmp("nil", cmnd) && !access && !trim_cmnd(cmnd))
+			ft_printf("zsh: command not found: %s\n", cmnd);
+		else if (ft_strcmp(c, "per"))
+			ft_printf("zsh: permission denied: inpermission\n");
+	}
+	if (check == 1)
+		ft_printf("zsh: permission denied: outfile\n");
 }
 
 char *fill_dir(void)
@@ -110,3 +153,4 @@ int any_of_those(char *content)
 		return(1);
 	return (0);
 }
+

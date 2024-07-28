@@ -63,8 +63,6 @@ int	file_check_w(char *file)
 	{
 		if (errno == 2)
 			return (1);
-		if (errno == 13)
-			ft_printf("zsh: permission denied: %s\n", file);
 		return (0);
 	}
 	close(fd);

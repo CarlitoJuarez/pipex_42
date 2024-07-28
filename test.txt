@@ -28,16 +28,27 @@ Invalid Infile + Invalid cmnd:
 -   wc, hi
 -   hi, hi
 
-4. No permission (write) on outfile
--   ls, wc
--   hi, wc  <___________CUR
--   wc, hi
--   hi, hi
+4. No permission (write) on outfile + Invalid cmnd
+-   ls, wc     normal
+-   hi, wc     command not found : hi
+-   wc, hi     normal         
+-   hi, lol    command not found : hi
 
-HEREDOC:
+        + Invalid Infile
+        -   ls, wc     permission!
+        -   wc, head   permission! + directory
+        -   hi, wc     permission! + command not found; hi
+        -   wc, hi     permission! + directory
+        -   hi, lol    permission! + command not found: hi  
 
--   here_doc 
--   outfile append?
+
+
+HEREDOC: outfile append ???
+
+-   Permission outfile
+-   Permission outfile + Invalid cmnd
+-   !!! head -n -5 !!!
+
 
 EDGE:
 
@@ -46,17 +57,29 @@ EDGE:
         - bonus
         - cat wc -l
         - cat ls -l
-        - head 
+        - head  && head -n 5 !!!
+
 -   /dev/urandom
         - invalid cmnd
         - bonus
+
 -   cmnd_path:
         - /usr/bin/head
         - /bin/ls
+        - //bin/ls
+
         - Invalid
             - usr/bin/head
             - /usr/head
--   PATH="" / unset PATH
-    -  Invalid Infile + Invalid cmnd
+        - first cmnd /hi + no (write) permission > outfile !!!
+        
 
+
+
+-   PATH="" / unset PATH
+    -  Invalid Infile + Invalid cmnd + Invalid write
+
+    infolder wc | ls outpermission   if ( && !cmnd && last == acc)
+        - command not found: wc
+        - permission denied: outfile
 

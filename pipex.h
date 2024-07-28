@@ -60,15 +60,18 @@ int     any_of_those(char *content);
 size_t	ft_strlen(char *s);
 
 char	*fill_nil(char *path);
+char	*fill_acc(char *this);
 char    *fill_dir(void);
 char    *fill_cont(int errnum);
 
 
 
-void    print_permission(char *c, char *cmnd, int access);
+void    print_permission(char *c, char *cmnd, int access, char *last);
 // flags & paths
 
-char	*find_path(char **envp, char *cmnd, char *content);
+int     trim_cmnd(char *cmnd);
+
+char	*find_path(char **envp, char *cmnd, char *content, char *last);
 
 char	**flags(char *s);
 

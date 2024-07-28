@@ -88,7 +88,7 @@ int	trim_cmnd(char *cmnd)
 	return (0);
 }
 
-char	*find_path_continue(char **arr, char *cmnd, char *content)
+char	*find_path_continue(char **arr, char *cmnd, char *content, char *last)
 {
 	int		i;
 	int		check;
@@ -106,17 +106,17 @@ char	*find_path_continue(char **arr, char *cmnd, char *content)
 		else if (access(cmnd, X_OK))
 			break ;
 		else
-			full_path = find_path_continue(arr, cmnd + trim_cmnd(cmnd), content);
+			full_path = find_path_continue(arr, cmnd + trim_cmnd(cmnd), content, last);
 		if (!access(full_path, X_OK) && check == 1)
-			return (print_permission(content, cmnd + trim_cmnd(cmnd), 1), free_list(arr), full_path);
+			return (print_permission(content, cmnd, 1, last), free_list(arr), full_path);
 		else if (!access(full_path, X_OK))
 			return (full_path);
 		free(full_path);
 	}
-	return (print_permission(content, cmnd + trim_cmnd(cmnd), 0), free_list(arr), NULL);
+	return (print_permission(content, cmnd, 0, last), free_list(arr), NULL);
 }
 
-char	*find_path(char **envp, char *cmnd, char *content)
+char	*find_path(char **envp, char *cmnd, char *content, char *last)
 {
 	int		i;
 	char	*path;
@@ -136,9 +136,9 @@ char	*find_path(char **envp, char *cmnd, char *content)
 		i++;
 	}
 	if (!path || !*path || !envp[i] || i == 100)
-		return (ft_printf("zsh: command not found: %s\n", cmnd), NULL);
+		return (print_permission(content, cmnd, 0, last), NULL);
 	arr = split_path(path);
 	if (!arr)
 		return (NULL);
-	return (find_path_continue(arr, cmnd, content));
+	return (find_path_continue(arr, cmnd, content, last));
 }
