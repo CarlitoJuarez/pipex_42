@@ -82,4 +82,4 @@ EDGE:
     infolder wc | ls outpermission   if ( && !cmnd && last == acc)
         - command not found: wc
         - permission denied: outfile
-
+        

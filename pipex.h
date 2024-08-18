@@ -6,7 +6,7 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:03:47 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/28 17:20:04 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/30 10:31:40 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ void	print_p(char *c, char *cmnd, int access, char *last);
 int		check_num(char *s);
 
 long	ft_atoi(char *s);
+
+// basic function 4
+
+void	exit_fail(char *content, char **cmnd_list, int fd);
+
+int		check_ls(char **arr, char *str);
+
+char	*pass_c(char *c);
 
 // fill
 

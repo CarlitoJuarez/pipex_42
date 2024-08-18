@@ -6,7 +6,7 @@
 /*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:07:14 by cjuarez           #+#    #+#             */
-/*   Updated: 2024/07/28 16:10:37 by cjuarez          ###   ########.fr       */
+/*   Updated: 2024/07/30 10:34:08 by cjuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,15 @@ void	continue_pipex(char **argv, char *c,
 		i++;
 	while (ls && *(ls + ++i))
 	{
-		if (ft_strcmp(*(ls + i), "nil") || any_of_those(c))
+		if ((ft_strcmp(*(ls + i), "nil") || any_of_those(c))
+			|| (ft_strcmp("dir", c) && (!ft_strstr(*(ls + i), "ls")
+					&& !ft_strstr(*(ls + i), "wc"))))
 			free_it(&c);
 		else
-			c = exec_cmnd(*(ls + i), *(arg_list + i), c);
+			c = exec_cmnd(*(ls + i), *(arg_list + i), pass_c(c));
 	}
-	if (ft_strcmp(argv[0], "here_doc"))
+	if (ft_strcmp(argv[0], "here_doc") && !check_ls(ls, "wc")
+		&& !check_ls(ls, "ls"))
 		i = open(argv[i + 2], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		i = open(argv[i + 2], O_WRONLY | O_CREAT | O_TRUNC, 0644);
